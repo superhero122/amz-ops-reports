@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMZ-Ops 定价报告 - AMZUSA20250709xxxx0010</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;background:#f5f7fa;color:#334155;min-height:100vh}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:#1e293b}
+.logo-dot{width:8px;height:8px;background:#378ADD;border-radius:50%}
+.badge{background:#eef2ff;color:#4f46e5;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:500}
+.badge-time{font-size:11px;color:#94a3b8}
+.main{max-width:1200px;margin:0 auto;padding:28px 24px}
+
+/* ── Tab 导航 ── */
+.tab-nav{display:flex;gap:0;background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:4px;margin-bottom:20px;width:-webkit-fit-content}
+.tab-btn{padding:8px 24px;border:none;background:none;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;border-radius:8px;transition:all .15s}
+.tab-btn:hover{color:#334155;background:#f1f5f9}
+.tab-btn.active{background:#378ADD;color:#fff;box-shadow:0 1px 3px rgba(55,138,221,.25)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── 卡片 ── */
+.card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:22px 26px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card-title{font-size:15px;font-weight:600;color:#1e293b;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:6px;height:6px;background:#378ADD;border-radius:50%;flex-shrink:0}
+.card-title .dot-warn{width:6px;height:6px;background:#d97706;border-radius:50%;flex-shrink:0}
+
+/* ── 概览表格（带样式） ── */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+thead th{text-align:left;background:#f8fafc;padding:10px 14px;font-size:12px;color:#64748b;font-weight:600;border-bottom:2px solid #e2e8f0;white-space:nowrap;position:sticky;top:0;z-index:5}
+tbody td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#475569;vertical-align:middle;word-break:break-word}
+tbody tr:hover td{background:#fafbfc}
+.price-val{color:#185FA5;font-weight:600;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.tag-a{background:#ecfdf5;color:#059669}
+.tag-b{background:#fef3c7;color:#d97706}
+.tag-c{background:#fee2e2;color:#dc2626}
+.tag-d{background:#f1f5f9;color:#94a3b8}
+.tag-l1{background:#eff6ff;color:#1d4ed8}
+.tag-l2{background:#f0fdf4;color:#15803d}
+.tag-l3{background:#fffbeb;color:#a16207}
+.tag-exclude{background:#fafafa;color:#9ca3af}
+
+/* 维度匹配标记 */
+.dim-match{display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px;white-space:nowrap;line-height:1.6}
+.dim-match-ok{background:#ecfdf5;color:#059669}
+.dim-match-diff{background:#fee2e2;color:#dc2626}
+.dim-match-na{background:#f1f5f9;color:#94a3b8}
+.dim-group{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+
+.asin-link{color:#185FA5;text-decoration:none;font-weight:600}
+.asin-link:hover{text-decoration:underline;color:#0c4a9e}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:18px 16px;text-align:center}
+.stat-val{font-size:26px;font-weight:700;color:#185FA5;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:#64748b;margin-top:3px}
+.stat-val.warn{color:#d97706}
+.stat-val.danger{color:#dc2626}
+
+.conclusion{border-left:3px solid #378ADD;line-height:1.9;color:#475569;font-size:14px}
+.conclusion strong{color:#1e293b}
+.conclusion .price-highlight{color:#185FA5;font-size:16px}
+.footer{text-align:center;padding:24px;font-size:11px;color:#c0c8d4}
+.section-count{display:inline-flex;align-items:center;background:#f1f5f9;color:#64748b;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:500}
+.empty-hint{text-align:center;padding:30px;color:#94a3b8;font-size:13px}
+
+/* ── 明细表专用样式（纯文本、复制友好）── */
+.detail-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.detail-toolbar .hint{font-size:12px;color:#64748b}
+.btn-copy{padding:6px 16px;background:#378ADD;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-copy:hover{background:#2563eb}
+.btn-copy.copied{background:#059669}
+table.detail-table{font-size:12px}
+table.detail-table thead th{background:#e2e8f0;color:#374151;font-weight:600;font-size:11px;padding:9px 12px}
+table.detail-table tbody td{padding:8px 12px;font-size:12px;color:#374151;border-color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+table.detail-table tbody td.title-cell{max-width:300px;white-space:normal}
+table.detail-table tbody tr:hover td{background:#fafbfc}
+table.detail-table .text-ok{color:#059669}
+table.detail-table .text-warn{color:#d97706}
+table.detail-table .text-danger{color:#dc2626}
+table.detail-table .text-muted{color:#9ca3af}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .main{padding:16px 12px}
+  .card{padding:16px}
+  table.detail-table tbody td{white-space:normal;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-dot"></span> AMZ-Ops 定价报告</div>
+    <div>
+      <span class="badge">AMZUSA20250709xxxx0010</span>
+      <span class="badge-time">2026-04-26 17:44</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- Tab 导航 -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="_switchTab(this, 'tab-overview')">概览</button>
+  <button class="tab-btn" onclick="_switchTab(this, 'tab-detail')">📋 表格明细</button>
+</div>
+
+<!-- 概览 Panel -->
+<div id="tab-overview" class="tab-panel active">
+
+<div class="stats">
+<div class="stat-card"><div class="stat-val">$8.99</div><div class="stat-label">建议定价</div></div><div class="stat-card"><div class="stat-val">28</div><div class="stat-label">总竞品数</div></div><div class="stat-card"><div class="stat-val">5</div><div class="stat-label">有效竞品</div></div><div class="stat-card"><div class="stat-val">60%分位-A类（5条样本）</div><div class="stat-label">定价方法</div></div>
+</div>
+
+
+
+<div class="card">  <div class="card-title"><span class="dot"></span>一级竞品 — 同规格 + 价格合理 + 月销>=30<span class="section-count">3 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0CR7QSK9M" target="_blank">B0CR7QSK9M</a></td><td>WITTSPOT</td><td class="price-val">$9.95</td><td>117</td><td>4.3 <span style='color:#94a3b8'>(33)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=皮革罐套">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=皮革 | 竞品=皮革">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DSVYWBG5" target="_blank">B0DSVYWBG5</a></td><td>Amazon.com: Gifts for Dad, Men, Him, Husband - I Identify As A Water Leather Can</td><td class="price-val">$9.99</td><td>81</td><td>4.5 <span style='color:#94a3b8'>(49)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=皮革罐套">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=皮革 | 竞品=皮革">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DSDMC7MQ" target="_blank">B0DSDMC7MQ</a></td><td>Amazon.com: Dad Gift From Daughter Son on Father&amp;#x27;s Day- I Identify AS W</td><td class="price-val">$8.99</td><td>77</td><td>4.8 <span style='color:#94a3b8'>(46)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=皮革罐套">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=皮革 | 竞品=皮革">✅材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>二级竞品 — A/B类同/近规格 + 价格合理<span class="section-count">2 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F43H3SKJ" target="_blank">B0F43H3SKJ</a></td><td>LEJIAJINW</td><td class="price-val">$9.99</td><td>2.1k</td><td>4.8 <span style='color:#94a3b8'>(236)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0G5YQ556Z" target="_blank">B0G5YQ556Z</a></td><td>LEJIAJINW</td><td class="price-val">$9.99</td><td>2.1k</td><td>4.8 <span style='color:#94a3b8'>(236)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot-warn"></span>排除竞品<span class="section-count">23 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>维度</th><th>排除原因</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F2832PBP" target="_blank">B0F2832PBP</a></td><td>Ecocomfy</td><td class="price-val">$5.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($5.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F1LHHY81" target="_blank">B0F1LHHY81</a></td><td>Golden Rain</td><td class="price-val">$8.39</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($8.39&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FMK2XC9T" target="_blank">B0FMK2XC9T</a></td><td>Elfzone</td><td class="price-val">$12.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=较大尺寸">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-未满足分级条件</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0D1G8VVSX" target="_blank">B0D1G8VVSX</a></td><td>LoLoud</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($6.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0D3HK1ZCS" target="_blank">B0D3HK1ZCS</a></td><td>Viteorgl</td><td class="price-val">$12.98</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-未满足分级条件</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FHJZ3MP3" target="_blank">B0FHJZ3MP3</a></td><td>LIGETON</td><td class="price-val">$2.59</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-价格偏离($2.59)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0G69W9CN3" target="_blank">B0G69W9CN3</a></td><td>Veworn</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=稍大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-低于B价($6.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0D75WKGNZ" target="_blank">B0D75WKGNZ</a></td><td>Amazon.com: Fathers Day Men Gifts for Dad Him Leather Can Cooler: Whit</td><td class="price-val">$7.59</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=皮革罐套">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=皮革 | 竞品=皮革">✅材质</span></div></td><td>同规格(A)-低于B价($7.59&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FT5QR9Q2" target="_blank">B0FT5QR9Q2</a></td><td>4E's Novelty</td><td class="price-val">$4.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($4.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FWK53HDK" target="_blank">B0FWK53HDK</a></td><td>Cituarko</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($6.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F7RF11R6" target="_blank">B0F7RF11R6</a></td><td>ChristmaxStore</td><td class="price-val">$4.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($4.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0D75T5VT7" target="_blank">B0D75T5VT7</a></td><td>MoMoxi</td><td class="price-val">$14.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=稍大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-未满足分级条件</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F6BVB441" target="_blank">B0F6BVB441</a></td><td>Xumbtvs</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($6.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GD6RQXFM" target="_blank">B0GD6RQXFM</a></td><td>HYPEHOME</td><td class="price-val">$9.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=稍大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-未满足分级条件</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DTHZWQG9" target="_blank">B0DTHZWQG9</a></td><td>SiliFine</td><td class="price-val">$11.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-未满足分级条件</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FHWJSB7C" target="_blank">B0FHWJSB7C</a></td><td>CUTHOLLOW</td><td class="price-val">$10.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-未满足分级条件</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DXF8ZXHH" target="_blank">B0DXF8ZXHH</a></td><td>Neokisa</td><td class="price-val">$8.95</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($8.95&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F2YH32LX" target="_blank">B0F2YH32LX</a></td><td>Duduboy</td><td class="price-val">$7.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($7.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F321BHJT" target="_blank">B0F321BHJT</a></td><td>Amazon.com: Father&amp;#x27;s Day Gifts for Dad,Dad Gifts from Son Dau</td><td class="price-val">$7.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=皮革罐套">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=12oz | 竞品=12oz">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=皮革 | 竞品=皮革">✅材质</span></div></td><td>同规格(A)-低于B价($7.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F3W3MNC5" target="_blank">B0F3W3MNC5</a></td><td>KKilicy</td><td class="price-val">$5.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=稍大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-低于B价($5.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F626FMRG" target="_blank">B0F626FMRG</a></td><td>Munidow</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=稍大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-低于B价($6.99&lt;$8.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FXG4R2P8" target="_blank">B0FXG4R2P8</a></td><td>ignismok</td><td class="price-val">$9.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=稍大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-未满足分级条件</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FR4CR3R2" target="_blank">B0FR4CR3R2</a></td><td>FOOZDEEVAAQ</td><td class="price-val">$6.49</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=皮革罐套 | 竞品=罐套">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=12oz | 竞品=稍大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=皮革 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-低于B价($6.49&lt;$8.99)</td></tr></tbody></table>  </div></div>
+
+<div class="card conclusion">  <div class="card-title">定价分析结论</div>  <p>基于 <strong>28</strong> 个竞品的分析，其中 A 类同规格竞品 <strong>5</strong> 个。一级竞品价格区间：<strong>$8.99 - $9.99</strong>，60%分位价格为 <strong>$8.99</strong>。</p>  <p style="margin-top:8px">    <span class="price-highlight">建议零售价：$8.99</span>     <span style="color:#94a3b8">(60%分位-A类（5条样本）)</span>     <span style="color:#94a3b8">| ✅ 可做</span>  </p></div>
+
+</div><!-- end tab-overview -->
+
+<!-- 表格明细 Panel -->
+<div id="tab-detail" class="tab-panel">
+
+<div class="card">
+  <div class="card-title"><span class="dot"></span>全量竞品明细 <span class="section-count">28 条</span></div>
+<div class="detail-toolbar">  <button class="btn-copy" onclick="_copyDetailTable('detail-tbl', this)">📋 全选复制</button>  <span class="hint">点击名可全选表格，然后 Ctrl+C 复制到 Excel/表格软件</span></div>
+<div class="table-wrap"><table id="detail-tbl" class="detail-table"><thead><tr><th>ASIN</th><th>商品名</th><th>价格($)</th><th>月销</th><th>评分</th><th>评论数</th><th>规格(A/B/C/D)</th><th>分级结果</th><th>分级原因</th></tr></thead><tbody><tr><td>B0CR7QSK9M</td><td class='title-cell'>WITTSPOT</td><td>$9.95</td><td>117</td><td>4.3</td><td>33</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($8.99)-月销117</td></tr>
+<tr><td>B0DSVYWBG5</td><td class='title-cell'>Amazon.com: Gifts for Dad， Men， Him， Husband - I Identify As A Water Leather Can Cooler Sleeves Holder 12Oz - Dad Birthd</td><td>$9.99</td><td>81</td><td>4.5</td><td>49</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($8.99)-月销81</td></tr>
+<tr><td>B0DSDMC7MQ</td><td class='title-cell'>Amazon.com: Dad Gift From Daughter Son on Father&amp;#x27;s Day- I Identify AS Water -Birthday Gift for Men， White Elephant </td><td>$8.99</td><td>77</td><td>4.8</td><td>46</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($8.99)-月销77</td></tr>
+<tr><td>B0F43H3SKJ</td><td class='title-cell'>LEJIAJINW</td><td>$9.99</td><td>2.1k</td><td>4.8</td><td>236</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($8.99)-月销2055</td></tr>
+<tr><td>B0G5YQ556Z</td><td class='title-cell'>LEJIAJINW</td><td>$9.99</td><td>2.1k</td><td>4.8</td><td>236</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($8.99)-月销2055</td></tr>
+<tr><td>B0F2832PBP</td><td class='title-cell'>Ecocomfy</td><td>$5.99</td><td>108</td><td>4.7</td><td>92</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($5.99&lt;$8.99)</td></tr>
+<tr><td>B0F1LHHY81</td><td class='title-cell'>Golden Rain</td><td>$8.39</td><td>49</td><td>4.3</td><td>31</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($8.39&lt;$8.99)</td></tr>
+<tr><td>B0FMK2XC9T</td><td class='title-cell'>Elfzone</td><td>$12.99</td><td>--</td><td>3.8</td><td>8</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-未满足分级条件</td></tr>
+<tr><td>B0D1G8VVSX</td><td class='title-cell'>LoLoud</td><td>$6.99</td><td>161</td><td>4.7</td><td>203</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($6.99&lt;$8.99)</td></tr>
+<tr><td>B0D3HK1ZCS</td><td class='title-cell'>Viteorgl</td><td>$12.98</td><td>26</td><td>4.6</td><td>107</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-未满足分级条件</td></tr>
+<tr><td>B0FHJZ3MP3</td><td class='title-cell'>LIGETON</td><td>$2.59</td><td>142</td><td>4.6</td><td>83</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($2.59)</td></tr>
+<tr><td>B0G69W9CN3</td><td class='title-cell'>Veworn</td><td>$6.99</td><td>--</td><td>--</td><td>--</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-低于B价($6.99&lt;$8.99)</td></tr>
+<tr><td>B0D75WKGNZ</td><td class='title-cell'>Amazon.com: Fathers Day Men Gifts for Dad Him Leather Can Cooler: White Elephant Gifts Christmas Stocking Stuffers for W</td><td>$7.59</td><td>330</td><td>4.6</td><td>821</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($7.59&lt;$8.99)</td></tr>
+<tr><td>B0FT5QR9Q2</td><td class='title-cell'>4E's Novelty</td><td>$4.99</td><td>50</td><td>4.8</td><td>38</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($4.99&lt;$8.99)</td></tr>
+<tr><td>B0FWK53HDK</td><td class='title-cell'>Cituarko</td><td>$6.99</td><td>103</td><td>4.4</td><td>20</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($6.99&lt;$8.99)</td></tr>
+<tr><td>B0F7RF11R6</td><td class='title-cell'>ChristmaxStore</td><td>$4.99</td><td>--</td><td>4.6</td><td>7</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($4.99&lt;$8.99)</td></tr>
+<tr><td>B0D75T5VT7</td><td class='title-cell'>MoMoxi</td><td>$14.99</td><td>--</td><td>4.2</td><td>9</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-未满足分级条件</td></tr>
+<tr><td>B0F6BVB441</td><td class='title-cell'>Xumbtvs</td><td>$6.99</td><td>30</td><td>4.3</td><td>38</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($6.99&lt;$8.99)</td></tr>
+<tr><td>B0GD6RQXFM</td><td class='title-cell'>HYPEHOME</td><td>$9.99</td><td>27</td><td>4.1</td><td>9</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-未满足分级条件</td></tr>
+<tr><td>B0DTHZWQG9</td><td class='title-cell'>SiliFine</td><td>$11.99</td><td>--</td><td>4</td><td>7</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-未满足分级条件</td></tr>
+<tr><td>B0FHWJSB7C</td><td class='title-cell'>CUTHOLLOW</td><td>$10.99</td><td>21</td><td>4.8</td><td>4</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-未满足分级条件</td></tr>
+<tr><td>B0DXF8ZXHH</td><td class='title-cell'>Neokisa</td><td>$8.95</td><td>--</td><td>4.5</td><td>16</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($8.95&lt;$8.99)</td></tr>
+<tr><td>B0F2YH32LX</td><td class='title-cell'>Duduboy</td><td>$7.99</td><td>12</td><td>--</td><td>--</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($7.99&lt;$8.99)</td></tr>
+<tr><td>B0F321BHJT</td><td class='title-cell'>Amazon.com: Father&amp;#x27;s Day Gifts for Dad，Dad Gifts from Son Daughter，Fathers Day Birthday Christmas Gifts for Dad，Lea</td><td>$7.99</td><td>30</td><td>4.6</td><td>109</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($7.99&lt;$8.99)</td></tr>
+<tr><td>B0F3W3MNC5</td><td class='title-cell'>KKilicy</td><td>$5.99</td><td>14</td><td>4.4</td><td>56</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-低于B价($5.99&lt;$8.99)</td></tr>
+<tr><td>B0F626FMRG</td><td class='title-cell'>Munidow</td><td>$6.99</td><td>--</td><td>--</td><td>--</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-低于B价($6.99&lt;$8.99)</td></tr>
+<tr><td>B0FXG4R2P8</td><td class='title-cell'>ignismok</td><td>$9.99</td><td>--</td><td>5</td><td>2</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-未满足分级条件</td></tr>
+<tr><td>B0FR4CR3R2</td><td class='title-cell'>FOOZDEEVAAQ</td><td>$6.49</td><td>--</td><td>5</td><td>1</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-低于B价($6.49&lt;$8.99)</td></tr>
+</tbody></table></div>
+</div>
+
+</div><!-- end tab-detail -->
+
+</div><!-- end main -->
+
+<div class="footer">
+  AMZ-Ops Price Report &middot; 2026-04-26 17:44 &middot; Page 1 of 1
+</div>
+
+<script>
+// Tab 切换
+function _switchTab(btn, panelId){
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// 全选复制表格
+function _copyDetailTable(tableId, btnEl){
+  var tbl = document.getElementById(tableId);
+  if(!tbl) return;
+  // 创建隐藏 textarea
+  var ta = document.createElement('textarea');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  var csv = '';
+  var rows = tbl.querySelectorAll('tr');
+  for(var ri=0;ri<rows.length;ri++){
+    var cells = rows[ri].querySelectorAll('th,td');
+    var vals = [];
+    for(var ci=0;ci<cells.length;ci++){
+      vals.push(cells[ci].textContent.trim());
+    }
+    csv += vals.join('\t') + '\n';
+  }
+  ta.value = csv;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  // 按钮反馈
+  btnEl.textContent = '✅ 已复制';
+  btnEl.classList.add('copied');
+  setTimeout(function(){
+    btnEl.textContent = '\U0001f4cb \u5168\u9009\u590d\u5236';
+    btnEl.classList.remove('copied');
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
