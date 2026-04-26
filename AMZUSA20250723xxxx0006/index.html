@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMZ-Ops 定价报告 - AMZUSA20250723xxxx0006</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;background:#f5f7fa;color:#334155;min-height:100vh}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:#1e293b}
+.logo-dot{width:8px;height:8px;background:#378ADD;border-radius:50%}
+.badge{background:#eef2ff;color:#4f46e5;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:500}
+.badge-time{font-size:11px;color:#94a3b8}
+.main{max-width:1200px;margin:0 auto;padding:28px 24px}
+
+/* ── Tab 导航 ── */
+.tab-nav{display:flex;gap:0;background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:4px;margin-bottom:20px;width:-webkit-fit-content}
+.tab-btn{padding:8px 24px;border:none;background:none;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;border-radius:8px;transition:all .15s}
+.tab-btn:hover{color:#334155;background:#f1f5f9}
+.tab-btn.active{background:#378ADD;color:#fff;box-shadow:0 1px 3px rgba(55,138,221,.25)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── 卡片 ── */
+.card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:22px 26px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card-title{font-size:15px;font-weight:600;color:#1e293b;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:6px;height:6px;background:#378ADD;border-radius:50%;flex-shrink:0}
+.card-title .dot-warn{width:6px;height:6px;background:#d97706;border-radius:50%;flex-shrink:0}
+
+/* ── 概览表格（带样式） ── */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+thead th{text-align:left;background:#f8fafc;padding:10px 14px;font-size:12px;color:#64748b;font-weight:600;border-bottom:2px solid #e2e8f0;white-space:nowrap;position:sticky;top:0;z-index:5}
+tbody td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#475569;vertical-align:middle;word-break:break-word}
+tbody tr:hover td{background:#fafbfc}
+.price-val{color:#185FA5;font-weight:600;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.tag-a{background:#ecfdf5;color:#059669}
+.tag-b{background:#fef3c7;color:#d97706}
+.tag-c{background:#fee2e2;color:#dc2626}
+.tag-d{background:#f1f5f9;color:#94a3b8}
+.tag-l1{background:#eff6ff;color:#1d4ed8}
+.tag-l2{background:#f0fdf4;color:#15803d}
+.tag-l3{background:#fffbeb;color:#a16207}
+.tag-exclude{background:#fafafa;color:#9ca3af}
+
+/* 维度匹配标记 */
+.dim-match{display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px;white-space:nowrap;line-height:1.6}
+.dim-match-ok{background:#ecfdf5;color:#059669}
+.dim-match-diff{background:#fee2e2;color:#dc2626}
+.dim-match-na{background:#f1f5f9;color:#94a3b8}
+.dim-group{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+
+.asin-link{color:#185FA5;text-decoration:none;font-weight:600}
+.asin-link:hover{text-decoration:underline;color:#0c4a9e}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:18px 16px;text-align:center}
+.stat-val{font-size:26px;font-weight:700;color:#185FA5;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:#64748b;margin-top:3px}
+.stat-val.warn{color:#d97706}
+.stat-val.danger{color:#dc2626}
+
+.conclusion{border-left:3px solid #378ADD;line-height:1.9;color:#475569;font-size:14px}
+.conclusion strong{color:#1e293b}
+.conclusion .price-highlight{color:#185FA5;font-size:16px}
+.footer{text-align:center;padding:24px;font-size:11px;color:#c0c8d4}
+.section-count{display:inline-flex;align-items:center;background:#f1f5f9;color:#64748b;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:500}
+.empty-hint{text-align:center;padding:30px;color:#94a3b8;font-size:13px}
+
+/* ── 明细表专用样式（纯文本、复制友好）── */
+.detail-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.detail-toolbar .hint{font-size:12px;color:#64748b}
+.btn-copy{padding:6px 16px;background:#378ADD;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-copy:hover{background:#2563eb}
+.btn-copy.copied{background:#059669}
+table.detail-table{font-size:12px}
+table.detail-table thead th{background:#e2e8f0;color:#374151;font-weight:600;font-size:11px;padding:9px 12px}
+table.detail-table tbody td{padding:8px 12px;font-size:12px;color:#374151;border-color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+table.detail-table tbody td.title-cell{max-width:300px;white-space:normal}
+table.detail-table tbody tr:hover td{background:#fafbfc}
+table.detail-table .text-ok{color:#059669}
+table.detail-table .text-warn{color:#d97706}
+table.detail-table .text-danger{color:#dc2626}
+table.detail-table .text-muted{color:#9ca3af}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .main{padding:16px 12px}
+  .card{padding:16px}
+  table.detail-table tbody td{white-space:normal;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-dot"></span> AMZ-Ops 定价报告</div>
+    <div>
+      <span class="badge">AMZUSA20250723xxxx0006</span>
+      <span class="badge-time">2026-04-26 15:48</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- Tab 导航 -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="_switchTab(this, 'tab-overview')">概览</button>
+  <button class="tab-btn" onclick="_switchTab(this, 'tab-detail')">📋 表格明细</button>
+</div>
+
+<!-- 概览 Panel -->
+<div id="tab-overview" class="tab-panel active">
+
+<div class="stats">
+<div class="stat-card"><div class="stat-val class="danger"">$9.85</div><div class="stat-label">建议定价</div></div><div class="stat-card"><div class="stat-val">23</div><div class="stat-label">总竞品数</div></div><div class="stat-card"><div class="stat-val">10</div><div class="stat-label">有效竞品</div></div><div class="stat-card"><div class="stat-val">60%分位-A类（6条样本）</div><div class="stat-label">定价方法</div></div>
+</div>
+
+<div class="card" style="border-left:3px solid #d97706;background:#fffbeb">  <div class="card-title" style="color:#92400e"><span class="dot-warn"></span>风险提示</div>  <p style="line-height:1.8;color:#78350f;font-size:14px">⚠️ 建议放弃</p></div>
+
+<div class="card">  <div class="card-title"><span class="dot"></span>一级竞品 — 同规格 + 价格合理 + 月销>=30<span class="section-count">2 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08FHY9R81" target="_blank">B08FHY9R81</a></td><td>Amazon.com: SMARTAKE Slow Cooker Liners, Large Size 13&amp;quot;x 21&amp;quot; D</td><td class="price-val">$13.99</td><td>1.5k</td><td>4.7 <span style='color:#94a3b8'>(3,594)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=20 count | 竞品=~20 count">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Large Size 13x21 (fits 3-8Qt)">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-free nylon">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F9FF2L8Y" target="_blank">B0F9FF2L8Y</a></td><td>Amazon.com: Katbite Crock Pot Liners, Heavy Duty Pop-Up Slow Cooker Liners, 13&a</td><td class="price-val">$12.99</td><td>92</td><td>4.6 <span style='color:#94a3b8'>(70)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=crock pot/slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=20 count | 竞品=~20 count">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Regular/Large (3-8Qt)">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=nylon blend | 竞品=heavy duty food-safe">➕材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>二级竞品 — A/B类同/近规格 + 价格合理<span class="section-count">1 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0179MM1JE" target="_blank">B0179MM1JE</a></td><td>Amazon.com: Reynolds Wrap Slow Cooker Liners 13&amp;quot; X 21&amp;quot; Round A</td><td class="price-val">$9.85</td><td>--</td><td>4.4 <span style='color:#94a3b8'>(16)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=20 count | 竞品=~13-20 count">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=13x21 Round (fits 3-8Qt)">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=nylon blend">✅材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>三级竞品 — C类不同规格 + 价格合理 + 月销>=30<span class="section-count">7 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0CBQGKWKX" target="_blank">B0CBQGKWKX</a></td><td>Amazon.com: Reynolds Slow Cooker Liners, Regular Size, 4 CT, (Pack of 3): Home &</td><td class="price-val">$17.99</td><td>118</td><td>4.7 <span style='color:#94a3b8'>(1,987)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=4 count per pack">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Regular Size">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=nylon blend">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DWSP2QXL" target="_blank">B0DWSP2QXL</a></td><td>Amazon.com: 30 Pack Slow Cooker Liners, Large Size 13&amp;quot;x 21&amp;quot; Co</td><td class="price-val">$9.99</td><td>3.8k</td><td>4.7 <span style='color:#94a3b8'>(1,162)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=30 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Large Size 13x21 (fits 3-8Qt)">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-Free nylon">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0BL94PPJF" target="_blank">B0BL94PPJF</a></td><td>Amazon.com: Syntus Slow Cooker Liners, 30 Count Cooking Bags Large Size Disposab</td><td class="price-val">$9.99</td><td>7.0k</td><td>4.8 <span style='color:#94a3b8'>(4,682)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=30 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Large Size 13x21 (fits 3-8Qt)">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=nylon blend | 竞品=food-grade plastic">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B00HVG7SYW" target="_blank">B00HVG7SYW</a></td><td>Amazon.com: Reynolds Slow Cooker Liners 2 Pack (8 Liners Total): Home &amp;amp; </td><td class="price-val">$12.49</td><td>51</td><td>4.7 <span style='color:#94a3b8'>(2,099)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=8 count (2-pack)">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Fits 3-8 Quarts">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=nylon blend">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0CGWJ1F3W" target="_blank">B0CGWJ1F3W</a></td><td>Amazon.com: 40×Slow Cooker Liners, Large pot Liner Disposable Cooking Bags, Fit </td><td class="price-val">$11.99</td><td>137</td><td>4.4 <span style='color:#94a3b8'>(727)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker/pot liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=40 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Large pot liner">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=nylon blend | 竞品=food-grade safe">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F8TWFT44" target="_blank">B0F8TWFT44</a></td><td>Amazon.com: WZHSBSAQ Slow Cooker Liners, 50 Cooking Bags, Oversized Disposable P</td><td class="price-val">$16.99</td><td>189</td><td>4.4 <span style='color:#94a3b8'>(60)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=cooking bags">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=50 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=oversized disposable">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=nylon blend | 竞品=food-grade">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FMY1K4R6" target="_blank">B0FMY1K4R6</a></td><td>Amazon.com: Slow Cooker Liners, 50 Count Cooking Bags Extra Large Size Disposabl</td><td class="price-val">$15.99</td><td>43</td><td>4.1 <span style='color:#94a3b8'>(44)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=cooking bags">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=50 count">❌数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Extra Large Size">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=nylon blend | 竞品=BPA-free">➕材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot-warn"></span>排除竞品<span class="section-count">13 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>维度</th><th>排除原因</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0D14X7L3M" target="_blank">B0D14X7L3M</a></td><td>Amazon.com: Reynolds Kitchens Slow Cooker Liners, Regular (Fits 3-8 Qu</td><td class="price-val">$26.32</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=20 count | 竞品=~20 count">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Fits 3-8 Quarts (Regular)">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=nylon blend">✅材质</span></div></td><td>同规格(A)-价格偏离($26.32)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0737N6LWX" target="_blank">B0737N6LWX</a></td><td>Amazon.com: Reynolds Kitchens Slow Cooker Liners, Small (1-3 quart), 5</td><td class="price-val">$5.51</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=5 count">❌数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Fits 1-3 Quart (Small)">❌尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=nylon blend">✅材质</span></div></td><td>不同规格(C)-价格偏离($5.51)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GC8SGV8N" target="_blank">B0GC8SGV8N</a></td><td>Amazon.com: Slow Cooker Liners, 24 Count, BPA-Free Nylon-Blend, Fits 3</td><td class="price-val">$29.49</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=24 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Fits 3-8 Quarts (Regular)">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-Free nylon blend">✅材质</span></div></td><td>同规格(A)-价格偏离($29.49)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0787WHGZB" target="_blank">B0787WHGZB</a></td><td>Amazon.com: Reynolds Kitchens Slow Cooker Liners 8 ct Box - 3 Pack: Ho</td><td class="price-val">$26.50</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=24 count (8ct×3pack)">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Fits 3-8 Quarts (Regular)">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=nylon blend">✅材质</span></div></td><td>同规格(A)-价格偏离($26.50)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F2FL33L2" target="_blank">B0F2FL33L2</a></td><td>Amazon.com: Syntus Crock Pot Liners, 20 Count 13&amp;quot; x 21&amp;qu</td><td class="price-val">$7.58</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners/crock pot">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=20 count | 竞品=20 count">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=13x21 Large (fits 3-8Qt)">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=nylon blend | 竞品=food-grade PE">➕材质</span></div></td><td>同规格(A)-低于B价($7.58&lt;$9.85)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08GFP1DGC" target="_blank">B08GFP1DGC</a></td><td>Amazon.com: KOOC Slow Cooker Liners 13&amp;quot;x21&amp;quot; 20 Count</td><td class="price-val">$7.59</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=20 count | 竞品=20 count">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=13x21 (fits 3-8Qt)">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-free material">✅材质</span></div></td><td>同规格(A)-低于B价($7.59&lt;$9.85)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DKP3DMCX" target="_blank">B0DKP3DMCX</a></td><td>Amazon.com: OLESBUR 30 Count Slow Cooker Liners, 13&amp;quot;x21&amp;q</td><td class="price-val">$8.88</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=30 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=13x21 (fits 3-8Qt)">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-free">✅材质</span></div></td><td>不同规格(C)-低于B价($8.88&lt;$9.85)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FFLM5Z3Z" target="_blank">B0FFLM5Z3Z</a></td><td>Amazon.com: SMARTAKE Slow Cooker Liners, 20 Count 13&amp;quot;x 21&amp</td><td class="price-val">$7.98</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=20 count | 竞品=20 count">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=13x21 Large">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-free">✅材质</span></div></td><td>同规格(A)-低于B价($7.98&lt;$9.85)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B089ZNRFZH" target="_blank">B089ZNRFZH</a></td><td>Amazon.com: KOOC Slow Cooker Liners 13x21 inch 10 Count Large Size Dis</td><td class="price-val">$5.05</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=10 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=13x21 Large">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-free">✅材质</span></div></td><td>不同规格(C)-价格偏离($5.05)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B00578EKRY" target="_blank">B00578EKRY</a></td><td>Amazon.com: Reynolds Slow Cooker Liners, 4 Bags (Pack of 1): Crockpot </td><td class="price-val">$9.56</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=4 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Crockpot compatible">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=nylon blend">✅材质</span></div></td><td>不同规格(C)-低于B价($9.56&lt;$9.85)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08FHYZCS3" target="_blank">B08FHYZCS3</a></td><td>Amazon.com: SMARTAKE Slow Cooker Liners, Large Size 13&amp;quot;x 21&a</td><td class="price-val">$24.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=unknown (&gt;20 likely)">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Large Size 13x21">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-free">✅材质</span></div></td><td>近似规格(B)-价格偏离($24.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DJPV14SN" target="_blank">B0DJPV14SN</a></td><td>Amazon.com: Glad Slow Cooker Liners – 10-Pack for 3-8 Quart Crockpots </td><td class="price-val">$9.24</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=20 count | 竞品=10 count">❌数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Fits 3-8 Quart">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-free">✅材质</span></div></td><td>不同规格(C)-低于B价($9.24&lt;$9.85)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0CRH85JLM" target="_blank">B0CRH85JLM</a></td><td>Amazon.com: SMARTAKE Slow Cooker Liners, Extra Large Size 14&amp;quot;</td><td class="price-val">$23.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=slow cooker liners | 竞品=slow cooker liners">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=transparent | 竞品=transparent">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=20 count | 竞品=~20 count">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=Fits 3-8 Quarts (Regular) | 竞品=Extra Large 14x22 (&gt;8Qt)">❌尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=nylon blend | 竞品=BPA-free">✅材质</span></div></td><td>不同规格(C)-价格偏离($23.99)</td></tr></tbody></table>  </div></div>
+
+<div class="card conclusion">  <div class="card-title">定价分析结论</div>  <p>基于 <strong>23</strong> 个竞品的分析，其中 A 类同规格竞品 <strong>9</strong> 个。一级竞品价格区间：<strong>$12.99 - $13.99</strong>，60%分位价格为 <strong>$9.85</strong>。</p>  <p style="margin-top:8px">    <span class="price-highlight">建议零售价：$9.85</span>     <span style="color:#94a3b8">(60%分位-A类（6条样本）)</span>     <span style="color:#94a3b8">| ⚠️ 建议放弃</span>  </p></div>
+
+</div><!-- end tab-overview -->
+
+<!-- 表格明细 Panel -->
+<div id="tab-detail" class="tab-panel">
+
+<div class="card">
+  <div class="card-title"><span class="dot"></span>全量竞品明细 <span class="section-count">23 条</span></div>
+<div class="detail-toolbar">  <button class="btn-copy" onclick="_copyDetailTable('detail-tbl', this)">📋 全选复制</button>  <span class="hint">点击名可全选表格，然后 Ctrl+C 复制到 Excel/表格软件</span></div>
+<div class="table-wrap"><table id="detail-tbl" class="detail-table"><thead><tr><th>ASIN</th><th>商品名</th><th>价格($)</th><th>月销</th><th>评分</th><th>评论数</th><th>规格(A/B/C/D)</th><th>分级结果</th><th>分级原因</th></tr></thead><tbody><tr><td>B08FHY9R81</td><td class='title-cell'>Amazon.com: SMARTAKE Slow Cooker Liners， Large Size 13&amp;quot;x 21&amp;quot; Disposable Cooking Bags， Fit 3QT to 8QT for Slow </td><td>$13.99</td><td>1.5k</td><td>4.7</td><td>3,594</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($9.85)-月销1529</td></tr>
+<tr><td>B0F9FF2L8Y</td><td class='title-cell'>Amazon.com: Katbite Crock Pot Liners， Heavy Duty Pop-Up Slow Cooker Liners， 13&amp;quot; X 21&amp;quot; Large Size Disposable Co</td><td>$12.99</td><td>92</td><td>4.6</td><td>70</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($9.85)-月销92</td></tr>
+<tr><td>B0179MM1JE</td><td class='title-cell'>Amazon.com: Reynolds Wrap Slow Cooker Liners 13&amp;quot; X 21&amp;quot; Round And Oval Boxed : Home &amp;amp; Kitchen</td><td>$9.85</td><td>--</td><td>4.4</td><td>16</td><td>A 同规格</td><td>二级竞品</td><td>A类-价格≥B($9.85)-月销未知</td></tr>
+<tr><td>B0CBQGKWKX</td><td class='title-cell'>Amazon.com: Reynolds Slow Cooker Liners， Regular Size， 4 CT， (Pack of 3): Home &amp;amp; Kitchen</td><td>$17.99</td><td>118</td><td>4.7</td><td>1,987</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($9.85)-月销118</td></tr>
+<tr><td>B0DWSP2QXL</td><td class='title-cell'>Amazon.com: 30 Pack Slow Cooker Liners， Large Size 13&amp;quot;x 21&amp;quot; Cooking Bags Disposable Pot Liners， Plastic Slow C</td><td>$9.99</td><td>3.8k</td><td>4.7</td><td>1,162</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($9.85)-月销3839</td></tr>
+<tr><td>B0BL94PPJF</td><td class='title-cell'>Amazon.com: Syntus Slow Cooker Liners， 30 Count Cooking Bags Large Size Disposable Pot Liners Plastic Bags， Fit 3QT to 8</td><td>$9.99</td><td>7.0k</td><td>4.8</td><td>4,682</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($9.85)-月销6995</td></tr>
+<tr><td>B00HVG7SYW</td><td class='title-cell'>Amazon.com: Reynolds Slow Cooker Liners 2 Pack (8 Liners Total): Home &amp;amp; Kitchen</td><td>$12.49</td><td>51</td><td>4.7</td><td>2,099</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($9.85)-月销51</td></tr>
+<tr><td>B0CGWJ1F3W</td><td class='title-cell'>Amazon.com: 40×Slow Cooker Liners， Large pot Liner Disposable Cooking Bags， Fit 3QT to 8QT for Slow Cooker， pot， Suitabl</td><td>$11.99</td><td>137</td><td>4.4</td><td>727</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($9.85)-月销137</td></tr>
+<tr><td>B0F8TWFT44</td><td class='title-cell'>Amazon.com: WZHSBSAQ Slow Cooker Liners， 50 Cooking Bags， Oversized Disposable Pot Liner Plastic Bags for 6QT to 10QT Sl</td><td>$16.99</td><td>189</td><td>4.4</td><td>60</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($9.85)-月销189</td></tr>
+<tr><td>B0FMY1K4R6</td><td class='title-cell'>Amazon.com: Slow Cooker Liners， 50 Count Cooking Bags Extra Large Size Disposable Pot Liners Plastic Bags， Fit 3QT to 10</td><td>$15.99</td><td>43</td><td>4.1</td><td>44</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($9.85)-月销43</td></tr>
+<tr><td>B0D14X7L3M</td><td class='title-cell'>Amazon.com: Reynolds Kitchens Slow Cooker Liners， Regular (Fits 3-8 Quarts)， 20 Count (Pack of 2) : Home &amp;amp; Kitchen</td><td>$26.32</td><td>--</td><td>4.8</td><td>6,713</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($26.32)</td></tr>
+<tr><td>B0737N6LWX</td><td class='title-cell'>Amazon.com: Reynolds Kitchens Slow Cooker Liners， Small (1-3 quart)， 5 Count : Home &amp;amp; Kitchen</td><td>$5.51</td><td>3.2k</td><td>4.8</td><td>32,061</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($5.51)</td></tr>
+<tr><td>B0GC8SGV8N</td><td class='title-cell'>Amazon.com: Slow Cooker Liners， 24 Count， BPA-Free Nylon-Blend， Fits 3-8 Quart Round or Oval Slow Cookers: Home &amp;amp; Ki</td><td>$29.49</td><td>--</td><td>5</td><td>3</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($29.49)</td></tr>
+<tr><td>B0787WHGZB</td><td class='title-cell'>Amazon.com: Reynolds Kitchens Slow Cooker Liners 8 ct Box - 3 Pack: Home &amp;amp; Kitchen</td><td>$26.50</td><td>--</td><td>4.8</td><td>13</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($26.50)</td></tr>
+<tr><td>B0F2FL33L2</td><td class='title-cell'>Amazon.com: Syntus Crock Pot Liners， 20 Count 13&amp;quot; x 21&amp;quot; Large Size Slow Cooker Liners Fits 3-8 Quart Pots， Dis</td><td>$7.58</td><td>3.2k</td><td>4.7</td><td>1,085</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($7.58&lt;$9.85)</td></tr>
+<tr><td>B08GFP1DGC</td><td class='title-cell'>Amazon.com: KOOC Slow Cooker Liners 13&amp;quot;x21&amp;quot; 20 Count Cooking Bags Pot Liners Disposable Bags Fit 3 qt to 8.5 q</td><td>$7.59</td><td>1.9k</td><td>4.7</td><td>5,549</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($7.59&lt;$9.85)</td></tr>
+<tr><td>B0DKP3DMCX</td><td class='title-cell'>Amazon.com: OLESBUR 30 Count Slow Cooker Liners， 13&amp;quot;x21&amp;quot;， Fits 3-8 Quarts， Disposable Pot Liners Compatible wi</td><td>$8.88</td><td>1.1k</td><td>4.7</td><td>834</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-低于B价($8.88&lt;$9.85)</td></tr>
+<tr><td>B0FFLM5Z3Z</td><td class='title-cell'>Amazon.com: SMARTAKE Slow Cooker Liners， 20 Count 13&amp;quot;x 21&amp;quot; Large Size Disposable Cooking Bags， Fit 3QT to 8QT </td><td>$7.98</td><td>836</td><td>4.8</td><td>49</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($7.98&lt;$9.85)</td></tr>
+<tr><td>B089ZNRFZH</td><td class='title-cell'>Amazon.com: KOOC Slow Cooker Liners 13x21 inch 10 Count Large Size Disposable Pot Liners Cooking Bags Fit 3QT to 8.5QT P</td><td>$5.05</td><td>1.3k</td><td>4.7</td><td>8,215</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($5.05)</td></tr>
+<tr><td>B00578EKRY</td><td class='title-cell'>Amazon.com: Reynolds Slow Cooker Liners， 4 Bags (Pack of 1): Crockpot Liners: Home &amp;amp; Kitchen</td><td>$9.56</td><td>--</td><td>4.6</td><td>762</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-低于B价($9.56&lt;$9.85)</td></tr>
+<tr><td>B08FHYZCS3</td><td class='title-cell'>Amazon.com: SMARTAKE Slow Cooker Liners， Large Size 13&amp;quot;x 21&amp;quot; Disposable Cooking Bags， Fit 3QT to 8QT for Slow </td><td>$24.99</td><td>1.5k</td><td>4.7</td><td>3,594</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($24.99)</td></tr>
+<tr><td>B0DJPV14SN</td><td class='title-cell'>Amazon.com: Glad Slow Cooker Liners – 10-Pack for 3-8 Quart Crockpots &amp;amp; Slow Cookers – BPA-Free， 13” x 21” Liners fo</td><td>$9.24</td><td>63</td><td>4.8</td><td>7</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-低于B价($9.24&lt;$9.85)</td></tr>
+<tr><td>B0CRH85JLM</td><td class='title-cell'>Amazon.com: SMARTAKE Slow Cooker Liners， Extra Large Size 14&amp;quot;x 22&amp;quot; Disposable Cooking Bags， Fit 6QT to 10QT fo</td><td>$23.99</td><td>1.5k</td><td>4.7</td><td>3,594</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($23.99)</td></tr>
+</tbody></table></div>
+</div>
+
+</div><!-- end tab-detail -->
+
+</div><!-- end main -->
+
+<div class="footer">
+  AMZ-Ops Price Report &middot; 2026-04-26 15:48 &middot; Page 1 of 1
+</div>
+
+<script>
+// Tab 切换
+function _switchTab(btn, panelId){
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// 全选复制表格
+function _copyDetailTable(tableId, btnEl){
+  var tbl = document.getElementById(tableId);
+  if(!tbl) return;
+  // 创建隐藏 textarea
+  var ta = document.createElement('textarea');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  var csv = '';
+  var rows = tbl.querySelectorAll('tr');
+  for(var ri=0;ri<rows.length;ri++){
+    var cells = rows[ri].querySelectorAll('th,td');
+    var vals = [];
+    for(var ci=0;ci<cells.length;ci++){
+      vals.push(cells[ci].textContent.trim());
+    }
+    csv += vals.join('\t') + '\n';
+  }
+  ta.value = csv;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  // 按钮反馈
+  btnEl.textContent = '✅ 已复制';
+  btnEl.classList.add('copied');
+  setTimeout(function(){
+    btnEl.textContent = '\U0001f4cb \u5168\u9009\u590d\u5236';
+    btnEl.classList.remove('copied');
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
