@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMZ-Ops 定价报告 - AMZUSA20250709xxxx0011</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;background:#f5f7fa;color:#334155;min-height:100vh}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:#1e293b}
+.logo-dot{width:8px;height:8px;background:#378ADD;border-radius:50%}
+.badge{background:#eef2ff;color:#4f46e5;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:500}
+.badge-time{font-size:11px;color:#94a3b8}
+.main{max-width:1200px;margin:0 auto;padding:28px 24px}
+
+/* ── Tab 导航 ── */
+.tab-nav{display:flex;gap:0;background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:4px;margin-bottom:20px;width:-webkit-fit-content}
+.tab-btn{padding:8px 24px;border:none;background:none;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;border-radius:8px;transition:all .15s}
+.tab-btn:hover{color:#334155;background:#f1f5f9}
+.tab-btn.active{background:#378ADD;color:#fff;box-shadow:0 1px 3px rgba(55,138,221,.25)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── 卡片 ── */
+.card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:22px 26px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card-title{font-size:15px;font-weight:600;color:#1e293b;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:6px;height:6px;background:#378ADD;border-radius:50%;flex-shrink:0}
+.card-title .dot-warn{width:6px;height:6px;background:#d97706;border-radius:50%;flex-shrink:0}
+
+/* ── 概览表格（带样式） ── */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+thead th{text-align:left;background:#f8fafc;padding:10px 14px;font-size:12px;color:#64748b;font-weight:600;border-bottom:2px solid #e2e8f0;white-space:nowrap;position:sticky;top:0;z-index:5}
+tbody td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#475569;vertical-align:middle;word-break:break-word}
+tbody tr:hover td{background:#fafbfc}
+.price-val{color:#185FA5;font-weight:600;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.tag-a{background:#ecfdf5;color:#059669}
+.tag-b{background:#fef3c7;color:#d97706}
+.tag-c{background:#fee2e2;color:#dc2626}
+.tag-d{background:#f1f5f9;color:#94a3b8}
+.tag-l1{background:#eff6ff;color:#1d4ed8}
+.tag-l2{background:#f0fdf4;color:#15803d}
+.tag-l3{background:#fffbeb;color:#a16207}
+.tag-exclude{background:#fafafa;color:#9ca3af}
+
+/* 维度匹配标记 */
+.dim-match{display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px;white-space:nowrap;line-height:1.6}
+.dim-match-ok{background:#ecfdf5;color:#059669}
+.dim-match-diff{background:#fee2e2;color:#dc2626}
+.dim-match-na{background:#f1f5f9;color:#94a3b8}
+.dim-group{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+
+.asin-link{color:#185FA5;text-decoration:none;font-weight:600}
+.asin-link:hover{text-decoration:underline;color:#0c4a9e}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:18px 16px;text-align:center}
+.stat-val{font-size:26px;font-weight:700;color:#185FA5;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:#64748b;margin-top:3px}
+.stat-val.warn{color:#d97706}
+.stat-val.danger{color:#dc2626}
+
+.conclusion{border-left:3px solid #378ADD;line-height:1.9;color:#475569;font-size:14px}
+.conclusion strong{color:#1e293b}
+.conclusion .price-highlight{color:#185FA5;font-size:16px}
+.footer{text-align:center;padding:24px;font-size:11px;color:#c0c8d4}
+.section-count{display:inline-flex;align-items:center;background:#f1f5f9;color:#64748b;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:500}
+.empty-hint{text-align:center;padding:30px;color:#94a3b8;font-size:13px}
+
+/* ── 明细表专用样式（纯文本、复制友好）── */
+.detail-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.detail-toolbar .hint{font-size:12px;color:#64748b}
+.btn-copy{padding:6px 16px;background:#378ADD;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-copy:hover{background:#2563eb}
+.btn-copy.copied{background:#059669}
+table.detail-table{font-size:12px}
+table.detail-table thead th{background:#e2e8f0;color:#374151;font-weight:600;font-size:11px;padding:9px 12px}
+table.detail-table tbody td{padding:8px 12px;font-size:12px;color:#374151;border-color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+table.detail-table tbody td.title-cell{max-width:300px;white-space:normal}
+table.detail-table tbody tr:hover td{background:#fafbfc}
+table.detail-table .text-ok{color:#059669}
+table.detail-table .text-warn{color:#d97706}
+table.detail-table .text-danger{color:#dc2626}
+table.detail-table .text-muted{color:#9ca3af}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .main{padding:16px 12px}
+  .card{padding:16px}
+  table.detail-table tbody td{white-space:normal;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-dot"></span> AMZ-Ops 定价报告</div>
+    <div>
+      <span class="badge">AMZUSA20250709xxxx0011</span>
+      <span class="badge-time">2026-04-26 17:44</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- Tab 导航 -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="_switchTab(this, 'tab-overview')">概览</button>
+  <button class="tab-btn" onclick="_switchTab(this, 'tab-detail')">📋 表格明细</button>
+</div>
+
+<!-- 概览 Panel -->
+<div id="tab-overview" class="tab-panel active">
+
+<div class="stats">
+<div class="stat-card"><div class="stat-val">$11.99</div><div class="stat-label">建议定价</div></div><div class="stat-card"><div class="stat-val">28</div><div class="stat-label">总竞品数</div></div><div class="stat-card"><div class="stat-val">9</div><div class="stat-label">有效竞品</div></div><div class="stat-card"><div class="stat-val">60%分位-A类（5条样本）</div><div class="stat-label">定价方法</div></div>
+</div>
+
+
+
+<div class="card">  <div class="card-title"><span class="dot"></span>一级竞品 — 同规格 + 价格合理 + 月销>=30<span class="section-count">3 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07K51YG5P" target="_blank">B07K51YG5P</a></td><td>OXO</td><td class="price-val">$11.99</td><td>419</td><td>4.7 <span style='color:#94a3b8'>(8,048)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07L5DK24X" target="_blank">B07L5DK24X</a></td><td>OXO</td><td class="price-val">$11.99</td><td>1.1k</td><td>4.6 <span style='color:#94a3b8'>(3,942)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B09BVZ3DFM" target="_blank">B09BVZ3DFM</a></td><td>OXO</td><td class="price-val">$17.95</td><td>384</td><td>4.7 <span style='color:#94a3b8'>(374)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>二级竞品 — A/B类同/近规格 + 价格合理<span class="section-count">3 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DBYWYYRZ" target="_blank">B0DBYWYYRZ</a></td><td>Zyliss</td><td class="price-val">$14.29</td><td>--</td><td>4 <span style='color:#94a3b8'>(118)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F1N8YMLY" target="_blank">B0F1N8YMLY</a></td><td>Spring Chef</td><td class="price-val">$12.99</td><td>126</td><td>4.5 <span style='color:#94a3b8'>(426)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0000DAQ46" target="_blank">B0000DAQ46</a></td><td>OXO</td><td class="price-val">$12.99</td><td>1.7k</td><td>4.8 <span style='color:#94a3b8'>(4,547)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>三级竞品 — C类不同规格 + 价格合理 + 月销>=30<span class="section-count">3 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0000CCY1S" target="_blank">B0000CCY1S</a></td><td>OXO</td><td class="price-val">$13.95</td><td>361</td><td>4.4 <span style='color:#94a3b8'>(6,255)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米工具">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B003BEDQKS" target="_blank">B003BEDQKS</a></td><td>OXO</td><td class="price-val">$17.08</td><td>60</td><td>4.6 <span style='color:#94a3b8'>(2,101)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米工具">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B094C9TMWK" target="_blank">B094C9TMWK</a></td><td>OLEKURT</td><td class="price-val">$17.99</td><td>344</td><td>4.4 <span style='color:#94a3b8'>(2,001)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot-warn"></span>排除竞品<span class="section-count">19 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>维度</th><th>排除原因</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07PLCYTFZ" target="_blank">B07PLCYTFZ</a></td><td>OXO</td><td class="price-val">$11.95</td><td><span style="color:#c0c8d4;font-size:11px">--</span></td><td>未知规格-低于B价($11.95&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FKHDXRWT" target="_blank">B0FKHDXRWT</a></td><td>Amazon.com: YRXEFY Corn Peeler Cob Stripper, Y-Shape Corn Kernel Remov</td><td class="price-val">$7.69</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td><td>近似规格(B)-低于B价($7.69&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07L5D3QQ8" target="_blank">B07L5D3QQ8</a></td><td>OXO</td><td class="price-val">$9.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td><td>同规格(A)-低于B价($9.99&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0B86TJRNR" target="_blank">B0B86TJRNR</a></td><td>OXO</td><td class="price-val">$24.94</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=na">➕数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-价格偏离($24.94)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B00004OCIU" target="_blank">B00004OCIU</a></td><td>OXO</td><td class="price-val">$9.95</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=稍小">❌尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td><td>近似规格(B)-低于B价($9.95&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07JCG9GKJ" target="_blank">B07JCG9GKJ</a></td><td>OXO</td><td class="price-val">$22.98</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米相关工具">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=na">➕数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-价格偏离($22.98)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07L52YCHC" target="_blank">B07L52YCHC</a></td><td>OXO</td><td class="price-val">$19.53</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米相关工具">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-价格偏离($19.53)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B01B5SOUF6" target="_blank">B01B5SOUF6</a></td><td>Chef'n</td><td class="price-val">$7.85</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($7.85&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F1NB3YDP" target="_blank">B0F1NB3YDP</a></td><td>Spring Chef</td><td class="price-val">$7.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td><td>近似规格(B)-低于B价($7.99&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B00004OCIP" target="_blank">B00004OCIP</a></td><td>OXO</td><td class="price-val">$11.79</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-ok" title="颜色: 源商品=na | 竞品=na">✅颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td><td>同规格(A)-低于B价($11.79&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FRFFGJ2Z" target="_blank">B0FRFFGJ2Z</a></td><td>AORNTAE</td><td class="price-val">$4.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-价格偏离($4.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B09Q556SZL" target="_blank">B09Q556SZL</a></td><td>Amazon.com: Corn Peeler Stainless Stee Corn Cob Stripper Tool Corn Thr</td><td class="price-val">$6.79</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=不锈钢 | 竞品=不锈钢">✅材质</span></div></td><td>近似规格(B)-低于B价($6.79&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B098FFNVH1" target="_blank">B098FFNVH1</a></td><td>OXO</td><td class="price-val">$19.95</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米工具">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-价格偏离($19.95)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B099HHVJ3C" target="_blank">B099HHVJ3C</a></td><td>OXO</td><td class="price-val">$29.79</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米工具">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=较大">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>不同规格(C)-价格偏离($29.79)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B079NTV24Z" target="_blank">B079NTV24Z</a></td><td>SHIMOMURA</td><td class="price-val">$4.40</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-价格偏离($4.40)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08GJ4WT7C" target="_blank">B08GJ4WT7C</a></td><td>AYCCNH</td><td class="price-val">$9.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=玉米剥粒器 | 竞品=玉米剥粒器">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=多色">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准 | 竞品=标准">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>近似规格(B)-低于B价($9.99&lt;$11.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0G6CC1HPL" target="_blank">B0G6CC1HPL</a></td><td></td><td class="price-val">$3.40</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=玉米剥粒器 | 竞品=na">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=na">➕数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>D类-无品牌无标题，仅fba_fee=3.01，无法判断类别，排除</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FL7RD3KF" target="_blank">B0FL7RD3KF</a></td><td></td><td class="price-val">$3.40</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=玉米剥粒器 | 竞品=na">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=na">➕数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>D类-无品牌无标题，fba_fee=3.92，无法判断类别，排除</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0C94D8BFG" target="_blank">B0C94D8BFG</a></td><td>Tablecraft</td><td class="price-val">$11.58</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=玉米剥粒器 | 竞品=na">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=na">➕数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=不锈钢 | 竞品=na">➕材质</span></div></td><td>D类-Tablecraft无具体标题，无数据，无法判断产品类型，排除</td></tr></tbody></table>  </div></div>
+
+<div class="card conclusion">  <div class="card-title">定价分析结论</div>  <p>基于 <strong>28</strong> 个竞品的分析，其中 A 类同规格竞品 <strong>5</strong> 个。一级竞品价格区间：<strong>$11.99 - $17.95</strong>，60%分位价格为 <strong>$11.99</strong>。</p>  <p style="margin-top:8px">    <span class="price-highlight">建议零售价：$11.99</span>     <span style="color:#94a3b8">(60%分位-A类（5条样本）)</span>     <span style="color:#94a3b8">| ✅ 可做</span>  </p></div>
+
+</div><!-- end tab-overview -->
+
+<!-- 表格明细 Panel -->
+<div id="tab-detail" class="tab-panel">
+
+<div class="card">
+  <div class="card-title"><span class="dot"></span>全量竞品明细 <span class="section-count">28 条</span></div>
+<div class="detail-toolbar">  <button class="btn-copy" onclick="_copyDetailTable('detail-tbl', this)">📋 全选复制</button>  <span class="hint">点击名可全选表格，然后 Ctrl+C 复制到 Excel/表格软件</span></div>
+<div class="table-wrap"><table id="detail-tbl" class="detail-table"><thead><tr><th>ASIN</th><th>商品名</th><th>价格($)</th><th>月销</th><th>评分</th><th>评论数</th><th>规格(A/B/C/D)</th><th>分级结果</th><th>分级原因</th></tr></thead><tbody><tr><td>B07K51YG5P</td><td class='title-cell'>OXO</td><td>$11.99</td><td>419</td><td>4.7</td><td>8,048</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($11.99)-月销419</td></tr>
+<tr><td>B07L5DK24X</td><td class='title-cell'>OXO</td><td>$11.99</td><td>1.1k</td><td>4.6</td><td>3,942</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($11.99)-月销1127</td></tr>
+<tr><td>B09BVZ3DFM</td><td class='title-cell'>OXO</td><td>$17.95</td><td>384</td><td>4.7</td><td>374</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($11.99)-月销384</td></tr>
+<tr><td>B0DBYWYYRZ</td><td class='title-cell'>Zyliss</td><td>$14.29</td><td>--</td><td>4</td><td>118</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($11.99)-月销未知</td></tr>
+<tr><td>B0F1N8YMLY</td><td class='title-cell'>Spring Chef</td><td>$12.99</td><td>126</td><td>4.5</td><td>426</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($11.99)-月销126</td></tr>
+<tr><td>B0000DAQ46</td><td class='title-cell'>OXO</td><td>$12.99</td><td>1.7k</td><td>4.8</td><td>4,547</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($11.99)-月销1685</td></tr>
+<tr><td>B0000CCY1S</td><td class='title-cell'>OXO</td><td>$13.95</td><td>361</td><td>4.4</td><td>6,255</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($11.99)-月销361</td></tr>
+<tr><td>B003BEDQKS</td><td class='title-cell'>OXO</td><td>$17.08</td><td>60</td><td>4.6</td><td>2,101</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($11.99)-月销60</td></tr>
+<tr><td>B094C9TMWK</td><td class='title-cell'>OLEKURT</td><td>$17.99</td><td>344</td><td>4.4</td><td>2,001</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($11.99)-月销344</td></tr>
+<tr><td>B07PLCYTFZ</td><td class='title-cell'>OXO</td><td>$11.95</td><td>1.1k</td><td>4.6</td><td>12,701</td><td>未知</td><td>排除-价格异常</td><td>未知规格-低于B价($11.95&lt;$11.99)</td></tr>
+<tr><td>B0FKHDXRWT</td><td class='title-cell'>Amazon.com: YRXEFY Corn Peeler Cob Stripper， Y-Shape Corn Kernel Remover Tool with Stainless Steel Blades， Corn Cob Stri</td><td>$7.69</td><td>--</td><td>--</td><td>--</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($7.69&lt;$11.99)</td></tr>
+<tr><td>B07L5D3QQ8</td><td class='title-cell'>OXO</td><td>$9.99</td><td>4.5k</td><td>4.4</td><td>13,469</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($9.99&lt;$11.99)</td></tr>
+<tr><td>B0B86TJRNR</td><td class='title-cell'>OXO</td><td>$24.94</td><td>--</td><td>4.2</td><td>9</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($24.94)</td></tr>
+<tr><td>B00004OCIU</td><td class='title-cell'>OXO</td><td>$9.95</td><td>8.4k</td><td>4.8</td><td>37,049</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($9.95&lt;$11.99)</td></tr>
+<tr><td>B07JCG9GKJ</td><td class='title-cell'>OXO</td><td>$22.98</td><td>158</td><td>4.7</td><td>3,525</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($22.98)</td></tr>
+<tr><td>B07L52YCHC</td><td class='title-cell'>OXO</td><td>$19.53</td><td>95</td><td>4.5</td><td>2,289</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($19.53)</td></tr>
+<tr><td>B01B5SOUF6</td><td class='title-cell'>Chef'n</td><td>$7.85</td><td>607</td><td>4.2</td><td>9,052</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($7.85&lt;$11.99)</td></tr>
+<tr><td>B0F1NB3YDP</td><td class='title-cell'>Spring Chef</td><td>$7.99</td><td>126</td><td>4.5</td><td>426</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($7.99&lt;$11.99)</td></tr>
+<tr><td>B00004OCIP</td><td class='title-cell'>OXO</td><td>$11.79</td><td>10.3k</td><td>4.8</td><td>52,233</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($11.79&lt;$11.99)</td></tr>
+<tr><td>B0FRFFGJ2Z</td><td class='title-cell'>AORNTAE</td><td>$4.99</td><td>200</td><td>4.2</td><td>22</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($4.99)</td></tr>
+<tr><td>B09Q556SZL</td><td class='title-cell'>Amazon.com: Corn Peeler Stainless Stee Corn Cob Stripper Tool Corn Thresher from the Cob， Removes Corn Kernels From Corn</td><td>$6.79</td><td>549</td><td>4</td><td>2,106</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($6.79&lt;$11.99)</td></tr>
+<tr><td>B098FFNVH1</td><td class='title-cell'>OXO</td><td>$19.95</td><td>572</td><td>4.7</td><td>1,779</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($19.95)</td></tr>
+<tr><td>B099HHVJ3C</td><td class='title-cell'>OXO</td><td>$29.79</td><td>186</td><td>4.8</td><td>555</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($29.79)</td></tr>
+<tr><td>B079NTV24Z</td><td class='title-cell'>SHIMOMURA</td><td>$4.40</td><td>--</td><td>3.6</td><td>4</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($4.40)</td></tr>
+<tr><td>B08GJ4WT7C</td><td class='title-cell'>AYCCNH</td><td>$9.99</td><td>31</td><td>4.5</td><td>416</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($9.99&lt;$11.99)</td></tr>
+<tr><td>B0G6CC1HPL</td><td class='title-cell'></td><td>$3.40</td><td>--</td><td>--</td><td>--</td><td>D 不同品类</td><td>排除-品类不符</td><td>D类-无品牌无标题，仅fba_fee=3.01，无法判断类别，排除</td></tr>
+<tr><td>B0FL7RD3KF</td><td class='title-cell'></td><td>$3.40</td><td>--</td><td>--</td><td>--</td><td>D 不同品类</td><td>排除-品类不符</td><td>D类-无品牌无标题，fba_fee=3.92，无法判断类别，排除</td></tr>
+<tr><td>B0C94D8BFG</td><td class='title-cell'>Tablecraft</td><td>$11.58</td><td>--</td><td>--</td><td>--</td><td>D 不同品类</td><td>排除-品类不符</td><td>D类-Tablecraft无具体标题，无数据，无法判断产品类型，排除</td></tr>
+</tbody></table></div>
+</div>
+
+</div><!-- end tab-detail -->
+
+</div><!-- end main -->
+
+<div class="footer">
+  AMZ-Ops Price Report &middot; 2026-04-26 17:44 &middot; Page 1 of 1
+</div>
+
+<script>
+// Tab 切换
+function _switchTab(btn, panelId){
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// 全选复制表格
+function _copyDetailTable(tableId, btnEl){
+  var tbl = document.getElementById(tableId);
+  if(!tbl) return;
+  // 创建隐藏 textarea
+  var ta = document.createElement('textarea');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  var csv = '';
+  var rows = tbl.querySelectorAll('tr');
+  for(var ri=0;ri<rows.length;ri++){
+    var cells = rows[ri].querySelectorAll('th,td');
+    var vals = [];
+    for(var ci=0;ci<cells.length;ci++){
+      vals.push(cells[ci].textContent.trim());
+    }
+    csv += vals.join('\t') + '\n';
+  }
+  ta.value = csv;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  // 按钮反馈
+  btnEl.textContent = '✅ 已复制';
+  btnEl.classList.add('copied');
+  setTimeout(function(){
+    btnEl.textContent = '\U0001f4cb \u5168\u9009\u590d\u5236';
+    btnEl.classList.remove('copied');
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
