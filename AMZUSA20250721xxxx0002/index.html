@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMZ-Ops 定价报告 - AMZUSA20250721xxxx0002</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;background:#f5f7fa;color:#334155;min-height:100vh}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:#1e293b}
+.logo-dot{width:8px;height:8px;background:#378ADD;border-radius:50%}
+.badge{background:#eef2ff;color:#4f46e5;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:500}
+.badge-time{font-size:11px;color:#94a3b8}
+.main{max-width:1200px;margin:0 auto;padding:28px 24px}
+
+/* ── Tab 导航 ── */
+.tab-nav{display:flex;gap:0;background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:4px;margin-bottom:20px;width:-webkit-fit-content}
+.tab-btn{padding:8px 24px;border:none;background:none;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;border-radius:8px;transition:all .15s}
+.tab-btn:hover{color:#334155;background:#f1f5f9}
+.tab-btn.active{background:#378ADD;color:#fff;box-shadow:0 1px 3px rgba(55,138,221,.25)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── 卡片 ── */
+.card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:22px 26px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card-title{font-size:15px;font-weight:600;color:#1e293b;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:6px;height:6px;background:#378ADD;border-radius:50%;flex-shrink:0}
+.card-title .dot-warn{width:6px;height:6px;background:#d97706;border-radius:50%;flex-shrink:0}
+
+/* ── 概览表格（带样式） ── */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+thead th{text-align:left;background:#f8fafc;padding:10px 14px;font-size:12px;color:#64748b;font-weight:600;border-bottom:2px solid #e2e8f0;white-space:nowrap;position:sticky;top:0;z-index:5}
+tbody td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#475569;vertical-align:middle;word-break:break-word}
+tbody tr:hover td{background:#fafbfc}
+.price-val{color:#185FA5;font-weight:600;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.tag-a{background:#ecfdf5;color:#059669}
+.tag-b{background:#fef3c7;color:#d97706}
+.tag-c{background:#fee2e2;color:#dc2626}
+.tag-d{background:#f1f5f9;color:#94a3b8}
+.tag-l1{background:#eff6ff;color:#1d4ed8}
+.tag-l2{background:#f0fdf4;color:#15803d}
+.tag-l3{background:#fffbeb;color:#a16207}
+.tag-exclude{background:#fafafa;color:#9ca3af}
+
+/* 维度匹配标记 */
+.dim-match{display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px;white-space:nowrap;line-height:1.6}
+.dim-match-ok{background:#ecfdf5;color:#059669}
+.dim-match-diff{background:#fee2e2;color:#dc2626}
+.dim-match-na{background:#f1f5f9;color:#94a3b8}
+.dim-group{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+
+.asin-link{color:#185FA5;text-decoration:none;font-weight:600}
+.asin-link:hover{text-decoration:underline;color:#0c4a9e}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:18px 16px;text-align:center}
+.stat-val{font-size:26px;font-weight:700;color:#185FA5;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:#64748b;margin-top:3px}
+.stat-val.warn{color:#d97706}
+.stat-val.danger{color:#dc2626}
+
+.conclusion{border-left:3px solid #378ADD;line-height:1.9;color:#475569;font-size:14px}
+.conclusion strong{color:#1e293b}
+.conclusion .price-highlight{color:#185FA5;font-size:16px}
+.footer{text-align:center;padding:24px;font-size:11px;color:#c0c8d4}
+.section-count{display:inline-flex;align-items:center;background:#f1f5f9;color:#64748b;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:500}
+.empty-hint{text-align:center;padding:30px;color:#94a3b8;font-size:13px}
+
+/* ── 明细表专用样式（纯文本、复制友好）── */
+.detail-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.detail-toolbar .hint{font-size:12px;color:#64748b}
+.btn-copy{padding:6px 16px;background:#378ADD;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-copy:hover{background:#2563eb}
+.btn-copy.copied{background:#059669}
+table.detail-table{font-size:12px}
+table.detail-table thead th{background:#e2e8f0;color:#374151;font-weight:600;font-size:11px;padding:9px 12px}
+table.detail-table tbody td{padding:8px 12px;font-size:12px;color:#374151;border-color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+table.detail-table tbody td.title-cell{max-width:300px;white-space:normal}
+table.detail-table tbody tr:hover td{background:#fafbfc}
+table.detail-table .text-ok{color:#059669}
+table.detail-table .text-warn{color:#d97706}
+table.detail-table .text-danger{color:#dc2626}
+table.detail-table .text-muted{color:#9ca3af}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .main{padding:16px 12px}
+  .card{padding:16px}
+  table.detail-table tbody td{white-space:normal;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-dot"></span> AMZ-Ops 定价报告</div>
+    <div>
+      <span class="badge">AMZUSA20250721xxxx0002</span>
+      <span class="badge-time">2026-04-26 17:46</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- Tab 导航 -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="_switchTab(this, 'tab-overview')">概览</button>
+  <button class="tab-btn" onclick="_switchTab(this, 'tab-detail')">📋 表格明细</button>
+</div>
+
+<!-- 概览 Panel -->
+<div id="tab-overview" class="tab-panel active">
+
+<div class="stats">
+<div class="stat-card"><div class="stat-val">$9.99</div><div class="stat-label">建议定价</div></div><div class="stat-card"><div class="stat-val">28</div><div class="stat-label">总竞品数</div></div><div class="stat-card"><div class="stat-val">7</div><div class="stat-label">有效竞品</div></div><div class="stat-card"><div class="stat-val">60%分位-A类（14条样本）</div><div class="stat-label">定价方法</div></div>
+</div>
+
+
+
+<div class="card">  <div class="card-title"><span class="dot"></span>一级竞品 — 同规格 + 价格合理 + 月销>=30<span class="section-count">4 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0B95R46J7" target="_blank">B0B95R46J7</a></td><td>QiNZiN</td><td class="price-val">$9.99</td><td>5.3k</td><td>4.7 <span style='color:#94a3b8'>(1,602)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=QiNZiN">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08YWZC4C6" target="_blank">B08YWZC4C6</a></td><td>MARMINS</td><td class="price-val">$9.99</td><td>4.7k</td><td>4.6 <span style='color:#94a3b8'>(3,888)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=MARMINS">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DRXGC81V" target="_blank">B0DRXGC81V</a></td><td>Muchfun</td><td class="price-val">$9.99</td><td>1.2k</td><td>4.7 <span style='color:#94a3b8'>(3,388)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Muchfun">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FT29SKQR" target="_blank">B0FT29SKQR</a></td><td>GUOZCARAY</td><td class="price-val">$9.99</td><td>91</td><td>4.5 <span style='color:#94a3b8'>(31)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=GUOZCARAY">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>二级竞品 — A/B类同/近规格 + 价格合理<span class="section-count">3 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GGQPN4JD" target="_blank">B0GGQPN4JD</a></td><td>houlishu</td><td class="price-val">$9.99</td><td>25</td><td>5 <span style='color:#94a3b8'>(3)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=houlishu">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F8QRXDLK" target="_blank">B0F8QRXDLK</a></td><td>WONCHIEF</td><td class="price-val">$9.99</td><td>--</td><td>5 <span style='color:#94a3b8'>(2)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=WONCHIEF">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FVSTP67B" target="_blank">B0FVSTP67B</a></td><td>Bestac</td><td class="price-val">$12.99</td><td>--</td><td>5 <span style='color:#94a3b8'>(2)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Bestac">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot-warn"></span>排除竞品<span class="section-count">21 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>维度</th><th>排除原因</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0B968L1W4" target="_blank">B0B968L1W4</a></td><td>QiNZiN</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=QiNZiN">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>同规格(A)-低于B价($6.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08HV3FMHS" target="_blank">B08HV3FMHS</a></td><td>Muchfun</td><td class="price-val">$5.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Muchfun">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-低于B价($5.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DDXQC96K" target="_blank">B0DDXQC96K</a></td><td>VUEKYN</td><td class="price-val">$4.19</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=VUEKYN">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-价格偏离($4.19)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08HVGMW87" target="_blank">B08HVGMW87</a></td><td>Muchfun</td><td class="price-val">$5.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Muchfun">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-低于B价($5.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DRXCR5NN" target="_blank">B0DRXCR5NN</a></td><td>Muchfun</td><td class="price-val">$7.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Muchfun">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>同规格(A)-低于B价($7.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B09LH8NH28" target="_blank">B09LH8NH28</a></td><td>GOGOODA</td><td class="price-val">$8.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=GOGOODA">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>同规格(A)-低于B价($8.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DN9CW9Y9" target="_blank">B0DN9CW9Y9</a></td><td>Hoodeet</td><td class="price-val">$4.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Hoodeet">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-价格偏离($4.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B096PYZ96V" target="_blank">B096PYZ96V</a></td><td>SUERIV</td><td class="price-val">$8.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=SUERIV">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>同规格(A)-低于B价($8.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GKYPDKQY" target="_blank">B0GKYPDKQY</a></td><td>Josojoou</td><td class="price-val">$5.81</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Josojoou">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-低于B价($5.81&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FGJ1LF73" target="_blank">B0FGJ1LF73</a></td><td>BTIFU</td><td class="price-val">$5.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=BTIFU">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-低于B价($5.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FLJQK7M7" target="_blank">B0FLJQK7M7</a></td><td>YRXEFY</td><td class="price-val">$7.39</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=YRXEFY">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>同规格(A)-低于B价($7.39&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FQCG1PYT" target="_blank">B0FQCG1PYT</a></td><td>Ouligay</td><td class="price-val">$4.49</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Ouligay">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-价格偏离($4.49)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DK8W77C6" target="_blank">B0DK8W77C6</a></td><td></td><td class="price-val">$4.67</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-价格偏离($4.67)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08HRSP4W9" target="_blank">B08HRSP4W9</a></td><td>Owl Focus</td><td class="price-val">$5.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Owl Focus">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-低于B价($5.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FYWY6XJT" target="_blank">B0FYWY6XJT</a></td><td>Generic</td><td class="price-val">$4.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=Generic">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-价格偏离($4.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FNWN3MKJ" target="_blank">B0FNWN3MKJ</a></td><td></td><td class="price-val">$5.37</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-低于B价($5.37&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F6653N1S" target="_blank">B0F6653N1S</a></td><td>YC Kitchen</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=YC Kitchen">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>同规格(A)-低于B价($6.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DKSVYGV4" target="_blank">B0DKSVYGV4</a></td><td>GXEOMT</td><td class="price-val">$8.99</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=GXEOMT">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>同规格(A)-低于B价($8.99&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GCZYGTRQ" target="_blank">B0GCZYGTRQ</a></td><td></td><td class="price-val">$3.50</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>不同规格(C)-价格偏离($3.50)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FLY1F35R" target="_blank">B0FLY1F35R</a></td><td>M.K ZIZZYPOP</td><td class="price-val">$5.59</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=手机支架(QiNZiN) | 竞品=M.K ZIZZYPOP">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1 | 竞品=1">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=标准">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=标准 | 竞品=标准">➕材质</span></div></td><td>近似规格(B)-低于B价($5.59&lt;$9.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0B96BHXBM" target="_blank">B0B96BHXBM</a></td><td>QiNZiN</td><td class="price-val">$9.99</td><td><span style="color:#c0c8d4;font-size:11px">--</span></td><td>无LLM分类结果</td></tr></tbody></table>  </div></div>
+
+<div class="card conclusion">  <div class="card-title">定价分析结论</div>  <p>基于 <strong>28</strong> 个竞品的分析，其中 A 类同规格竞品 <strong>14</strong> 个。一级竞品价格区间：<strong>$9.99 - $9.99</strong>，60%分位价格为 <strong>$9.99</strong>。</p>  <p style="margin-top:8px">    <span class="price-highlight">建议零售价：$9.99</span>     <span style="color:#94a3b8">(60%分位-A类（14条样本）)</span>     <span style="color:#94a3b8">| ✅ 可做</span>  </p></div>
+
+</div><!-- end tab-overview -->
+
+<!-- 表格明细 Panel -->
+<div id="tab-detail" class="tab-panel">
+
+<div class="card">
+  <div class="card-title"><span class="dot"></span>全量竞品明细 <span class="section-count">28 条</span></div>
+<div class="detail-toolbar">  <button class="btn-copy" onclick="_copyDetailTable('detail-tbl', this)">📋 全选复制</button>  <span class="hint">点击名可全选表格，然后 Ctrl+C 复制到 Excel/表格软件</span></div>
+<div class="table-wrap"><table id="detail-tbl" class="detail-table"><thead><tr><th>ASIN</th><th>商品名</th><th>价格($)</th><th>月销</th><th>评分</th><th>评论数</th><th>规格(A/B/C/D)</th><th>分级结果</th><th>分级原因</th></tr></thead><tbody><tr><td>B0B95R46J7</td><td class='title-cell'>QiNZiN</td><td>$9.99</td><td>5.3k</td><td>4.7</td><td>1,602</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($9.99)-月销5294</td></tr>
+<tr><td>B08YWZC4C6</td><td class='title-cell'>MARMINS</td><td>$9.99</td><td>4.7k</td><td>4.6</td><td>3,888</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($9.99)-月销4731</td></tr>
+<tr><td>B0DRXGC81V</td><td class='title-cell'>Muchfun</td><td>$9.99</td><td>1.2k</td><td>4.7</td><td>3,388</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($9.99)-月销1210</td></tr>
+<tr><td>B0FT29SKQR</td><td class='title-cell'>GUOZCARAY</td><td>$9.99</td><td>91</td><td>4.5</td><td>31</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($9.99)-月销91</td></tr>
+<tr><td>B0GGQPN4JD</td><td class='title-cell'>houlishu</td><td>$9.99</td><td>25</td><td>5</td><td>3</td><td>A 同规格</td><td>二级竞品</td><td>A类-价格≥B($9.99)-月销25</td></tr>
+<tr><td>B0F8QRXDLK</td><td class='title-cell'>WONCHIEF</td><td>$9.99</td><td>--</td><td>5</td><td>2</td><td>A 同规格</td><td>二级竞品</td><td>A类-价格≥B($9.99)-月销未知</td></tr>
+<tr><td>B0FVSTP67B</td><td class='title-cell'>Bestac</td><td>$12.99</td><td>--</td><td>5</td><td>2</td><td>A 同规格</td><td>二级竞品</td><td>A类-价格≥B($9.99)-月销未知</td></tr>
+<tr><td>B0B968L1W4</td><td class='title-cell'>QiNZiN</td><td>$6.99</td><td>18.9k</td><td>4.7</td><td>8,030</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.99&lt;$9.99)</td></tr>
+<tr><td>B08HV3FMHS</td><td class='title-cell'>Muchfun</td><td>$5.99</td><td>1.2k</td><td>4.7</td><td>3,388</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($5.99&lt;$9.99)</td></tr>
+<tr><td>B0DDXQC96K</td><td class='title-cell'>VUEKYN</td><td>$4.19</td><td>2.4k</td><td>4.7</td><td>788</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($4.19)</td></tr>
+<tr><td>B08HVGMW87</td><td class='title-cell'>Muchfun</td><td>$5.99</td><td>1.2k</td><td>4.7</td><td>3,388</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($5.99&lt;$9.99)</td></tr>
+<tr><td>B0DRXCR5NN</td><td class='title-cell'>Muchfun</td><td>$7.99</td><td>1.2k</td><td>4.7</td><td>3,388</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($7.99&lt;$9.99)</td></tr>
+<tr><td>B09LH8NH28</td><td class='title-cell'>GOGOODA</td><td>$8.99</td><td>9.5k</td><td>4.7</td><td>47,890</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($8.99&lt;$9.99)</td></tr>
+<tr><td>B0DN9CW9Y9</td><td class='title-cell'>Hoodeet</td><td>$4.99</td><td>1.0k</td><td>4.7</td><td>791</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($4.99)</td></tr>
+<tr><td>B096PYZ96V</td><td class='title-cell'>SUERIV</td><td>$8.99</td><td>90</td><td>4.6</td><td>603</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($8.99&lt;$9.99)</td></tr>
+<tr><td>B0GKYPDKQY</td><td class='title-cell'>Josojoou</td><td>$5.81</td><td>12</td><td>--</td><td>--</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($5.81&lt;$9.99)</td></tr>
+<tr><td>B0FGJ1LF73</td><td class='title-cell'>BTIFU</td><td>$5.99</td><td>110</td><td>4.8</td><td>92</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($5.99&lt;$9.99)</td></tr>
+<tr><td>B0FLJQK7M7</td><td class='title-cell'>YRXEFY</td><td>$7.39</td><td>--</td><td>--</td><td>--</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($7.39&lt;$9.99)</td></tr>
+<tr><td>B0FQCG1PYT</td><td class='title-cell'>Ouligay</td><td>$4.49</td><td>22</td><td>--</td><td>--</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($4.49)</td></tr>
+<tr><td>B0DK8W77C6</td><td class='title-cell'></td><td>$4.67</td><td>--</td><td>--</td><td>--</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($4.67)</td></tr>
+<tr><td>B08HRSP4W9</td><td class='title-cell'>Owl Focus</td><td>$5.99</td><td>108</td><td>4.7</td><td>524</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($5.99&lt;$9.99)</td></tr>
+<tr><td>B0FYWY6XJT</td><td class='title-cell'>Generic</td><td>$4.99</td><td>--</td><td>4.6</td><td>5</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($4.99)</td></tr>
+<tr><td>B0FNWN3MKJ</td><td class='title-cell'></td><td>$5.37</td><td>--</td><td>--</td><td>--</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($5.37&lt;$9.99)</td></tr>
+<tr><td>B0F6653N1S</td><td class='title-cell'>YC Kitchen</td><td>$6.99</td><td>--</td><td>4.7</td><td>37</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.99&lt;$9.99)</td></tr>
+<tr><td>B0DKSVYGV4</td><td class='title-cell'>GXEOMT</td><td>$8.99</td><td>--</td><td>3.9</td><td>6</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($8.99&lt;$9.99)</td></tr>
+<tr><td>B0GCZYGTRQ</td><td class='title-cell'></td><td>$3.50</td><td>--</td><td>--</td><td>--</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($3.50)</td></tr>
+<tr><td>B0FLY1F35R</td><td class='title-cell'>M.K ZIZZYPOP</td><td>$5.59</td><td>--</td><td>5</td><td>1</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-低于B价($5.59&lt;$9.99)</td></tr>
+<tr><td>B0B96BHXBM</td><td class='title-cell'>QiNZiN</td><td>$9.99</td><td>18.9k</td><td>4.7</td><td>8,030</td><td>未知</td><td>排除-品类不符</td><td>无LLM分类结果</td></tr>
+</tbody></table></div>
+</div>
+
+</div><!-- end tab-detail -->
+
+</div><!-- end main -->
+
+<div class="footer">
+  AMZ-Ops Price Report &middot; 2026-04-26 17:46 &middot; Page 1 of 1
+</div>
+
+<script>
+// Tab 切换
+function _switchTab(btn, panelId){
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// 全选复制表格
+function _copyDetailTable(tableId, btnEl){
+  var tbl = document.getElementById(tableId);
+  if(!tbl) return;
+  // 创建隐藏 textarea
+  var ta = document.createElement('textarea');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  var csv = '';
+  var rows = tbl.querySelectorAll('tr');
+  for(var ri=0;ri<rows.length;ri++){
+    var cells = rows[ri].querySelectorAll('th,td');
+    var vals = [];
+    for(var ci=0;ci<cells.length;ci++){
+      vals.push(cells[ci].textContent.trim());
+    }
+    csv += vals.join('\t') + '\n';
+  }
+  ta.value = csv;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  // 按钮反馈
+  btnEl.textContent = '✅ 已复制';
+  btnEl.classList.add('copied');
+  setTimeout(function(){
+    btnEl.textContent = '\U0001f4cb \u5168\u9009\u590d\u5236';
+    btnEl.classList.remove('copied');
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
