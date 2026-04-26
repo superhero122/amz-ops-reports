@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMZ-Ops 定价报告 - AMZUSA20250723xxxx0022</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;background:#f5f7fa;color:#334155;min-height:100vh}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:#1e293b}
+.logo-dot{width:8px;height:8px;background:#378ADD;border-radius:50%}
+.badge{background:#eef2ff;color:#4f46e5;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:500}
+.badge-time{font-size:11px;color:#94a3b8}
+.main{max-width:1200px;margin:0 auto;padding:28px 24px}
+
+/* ── Tab 导航 ── */
+.tab-nav{display:flex;gap:0;background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:4px;margin-bottom:20px;width:-webkit-fit-content}
+.tab-btn{padding:8px 24px;border:none;background:none;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;border-radius:8px;transition:all .15s}
+.tab-btn:hover{color:#334155;background:#f1f5f9}
+.tab-btn.active{background:#378ADD;color:#fff;box-shadow:0 1px 3px rgba(55,138,221,.25)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── 卡片 ── */
+.card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:22px 26px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card-title{font-size:15px;font-weight:600;color:#1e293b;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:6px;height:6px;background:#378ADD;border-radius:50%;flex-shrink:0}
+.card-title .dot-warn{width:6px;height:6px;background:#d97706;border-radius:50%;flex-shrink:0}
+
+/* ── 概览表格（带样式） ── */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+thead th{text-align:left;background:#f8fafc;padding:10px 14px;font-size:12px;color:#64748b;font-weight:600;border-bottom:2px solid #e2e8f0;white-space:nowrap;position:sticky;top:0;z-index:5}
+tbody td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#475569;vertical-align:middle;word-break:break-word}
+tbody tr:hover td{background:#fafbfc}
+.price-val{color:#185FA5;font-weight:600;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.tag-a{background:#ecfdf5;color:#059669}
+.tag-b{background:#fef3c7;color:#d97706}
+.tag-c{background:#fee2e2;color:#dc2626}
+.tag-d{background:#f1f5f9;color:#94a3b8}
+.tag-l1{background:#eff6ff;color:#1d4ed8}
+.tag-l2{background:#f0fdf4;color:#15803d}
+.tag-l3{background:#fffbeb;color:#a16207}
+.tag-exclude{background:#fafafa;color:#9ca3af}
+
+/* 维度匹配标记 */
+.dim-match{display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px;white-space:nowrap;line-height:1.6}
+.dim-match-ok{background:#ecfdf5;color:#059669}
+.dim-match-diff{background:#fee2e2;color:#dc2626}
+.dim-match-na{background:#f1f5f9;color:#94a3b8}
+.dim-group{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+
+.asin-link{color:#185FA5;text-decoration:none;font-weight:600}
+.asin-link:hover{text-decoration:underline;color:#0c4a9e}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:18px 16px;text-align:center}
+.stat-val{font-size:26px;font-weight:700;color:#185FA5;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:#64748b;margin-top:3px}
+.stat-val.warn{color:#d97706}
+.stat-val.danger{color:#dc2626}
+
+.conclusion{border-left:3px solid #378ADD;line-height:1.9;color:#475569;font-size:14px}
+.conclusion strong{color:#1e293b}
+.conclusion .price-highlight{color:#185FA5;font-size:16px}
+.footer{text-align:center;padding:24px;font-size:11px;color:#c0c8d4}
+.section-count{display:inline-flex;align-items:center;background:#f1f5f9;color:#64748b;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:500}
+.empty-hint{text-align:center;padding:30px;color:#94a3b8;font-size:13px}
+
+/* ── 明细表专用样式（纯文本、复制友好）── */
+.detail-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.detail-toolbar .hint{font-size:12px;color:#64748b}
+.btn-copy{padding:6px 16px;background:#378ADD;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-copy:hover{background:#2563eb}
+.btn-copy.copied{background:#059669}
+table.detail-table{font-size:12px}
+table.detail-table thead th{background:#e2e8f0;color:#374151;font-weight:600;font-size:11px;padding:9px 12px}
+table.detail-table tbody td{padding:8px 12px;font-size:12px;color:#374151;border-color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+table.detail-table tbody td.title-cell{max-width:300px;white-space:normal}
+table.detail-table tbody tr:hover td{background:#fafbfc}
+table.detail-table .text-ok{color:#059669}
+table.detail-table .text-warn{color:#d97706}
+table.detail-table .text-danger{color:#dc2626}
+table.detail-table .text-muted{color:#9ca3af}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .main{padding:16px 12px}
+  .card{padding:16px}
+  table.detail-table tbody td{white-space:normal;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-dot"></span> AMZ-Ops 定价报告</div>
+    <div>
+      <span class="badge">AMZUSA20250723xxxx0022</span>
+      <span class="badge-time">2026-04-26 17:49</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- Tab 导航 -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="_switchTab(this, 'tab-overview')">概览</button>
+  <button class="tab-btn" onclick="_switchTab(this, 'tab-detail')">📋 表格明细</button>
+</div>
+
+<!-- 概览 Panel -->
+<div id="tab-overview" class="tab-panel active">
+
+<div class="stats">
+<div class="stat-card"><div class="stat-val class="danger"">--</div><div class="stat-label">建议定价</div></div><div class="stat-card"><div class="stat-val">26</div><div class="stat-label">总竞品数</div></div><div class="stat-card"><div class="stat-val">21</div><div class="stat-label">有效竞品</div></div><div class="stat-card"><div class="stat-val">无有效样本(A类定价池为空)</div><div class="stat-label">定价方法</div></div>
+</div>
+
+<div class="card" style="border-left:3px solid #d97706;background:#fffbeb">  <div class="card-title" style="color:#92400e"><span class="dot-warn"></span>风险提示</div>  <p style="line-height:1.8;color:#78350f;font-size:14px">⚠️ 建议放弃</p></div>
+
+<div class="card">  <div class="card-title"><span class="dot"></span>二级竞品 — A/B类同/近规格 + 价格合理<span class="section-count">20 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0879KHYXC" target="_blank">B0879KHYXC</a></td><td>indigywve</td><td class="price-val">$15.99</td><td>188</td><td>4.7 <span style='color:#94a3b8'>(45)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准(fba 5.61) | 竞品=标准(fba 5.61)">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=玻璃+不锈钢">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F5X1YLG9" target="_blank">B0F5X1YLG9</a></td><td>Generic</td><td class="price-val">$13.99</td><td>--</td><td>3.9 <span style='color:#94a3b8'>(3)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略大(fba 5.82)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DSBS21HB" target="_blank">B0DSBS21HB</a></td><td>M JINGMEI</td><td class="price-val">$11.99</td><td>531</td><td>4.1 <span style='color:#94a3b8'>(601)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略小(fba 5.22)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B01N1PSWSB" target="_blank">B01N1PSWSB</a></td><td>HOME EC</td><td class="price-val">$17.99</td><td>17.3k</td><td>4.5 <span style='color:#94a3b8'>(42,017)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=未知">➕数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准(fba 5.61) | 竞品=标准(fba 5.61)">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FLVS8FFC" target="_blank">B0FLVS8FFC</a></td><td>YRXEFY</td><td class="price-val">$17.19</td><td>--</td><td>--</td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略大(fba 5.92)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07P5RNKR5" target="_blank">B07P5RNKR5</a></td><td>Yugefom</td><td class="price-val">$14.99</td><td>184</td><td>4.2 <span style='color:#94a3b8'>(357)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略小(fba 5.04)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B016LUR08W" target="_blank">B016LUR08W</a></td><td>LEVAV</td><td class="price-val">$11.99</td><td>78</td><td>4.2 <span style='color:#94a3b8'>(6,524)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略小(fba 5.42)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07QGS17W4" target="_blank">B07QGS17W4</a></td><td>bonris</td><td class="price-val">$16.99</td><td>155</td><td>4.3 <span style='color:#94a3b8'>(1,366)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略小(fba 5.42)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FX1NGRN2" target="_blank">B0FX1NGRN2</a></td><td>Generic</td><td class="price-val">$14.99</td><td>88</td><td>4.2 <span style='color:#94a3b8'>(12)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略小(fba 5.04)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0D2Q7V2VM" target="_blank">B0D2Q7V2VM</a></td><td>LunarFiery</td><td class="price-val">$11.99</td><td>61</td><td>4.5 <span style='color:#94a3b8'>(335)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=未知">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0788QFWCF" target="_blank">B0788QFWCF</a></td><td>Mason Mills</td><td class="price-val">$19.95</td><td>85</td><td>4.5 <span style='color:#94a3b8'>(806)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略大(fba 6.13)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DKN9XVND" target="_blank">B0DKN9XVND</a></td><td>Gulex</td><td class="price-val">$9.99</td><td>86</td><td>4.3 <span style='color:#94a3b8'>(139)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=未知">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07SCYQ2Y2" target="_blank">B07SCYQ2Y2</a></td><td>VEVOK CHEF</td><td class="price-val">$15.99</td><td>84</td><td>4.2 <span style='color:#94a3b8'>(4,330)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略小(fba 5.57)">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B086JL48W4" target="_blank">B086JL48W4</a></td><td>LessMo</td><td class="price-val">$12.99</td><td>1.8k</td><td>4.4 <span style='color:#94a3b8'>(4,738)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-ok" title="尺寸: 源商品=标准(fba 5.61) | 竞品=标准(fba 5.61)">✅尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0B1TQT2FD" target="_blank">B0B1TQT2FD</a></td><td>bonris</td><td class="price-val">$17.99</td><td>--</td><td>4.4 <span style='color:#94a3b8'>(1,116)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=未知">➕数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=未知">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B08MTZ339Q" target="_blank">B08MTZ339Q</a></td><td>Kitchen-GO</td><td class="price-val">$9.99</td><td>380</td><td>4.5 <span style='color:#94a3b8'>(829)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=略小(fba 4.35)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0B3HRZPBP" target="_blank">B0B3HRZPBP</a></td><td>PTGIORE</td><td class="price-val">$16.99</td><td>--</td><td>--</td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=未知">➕数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=未知">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DTJYW44F" target="_blank">B0DTJYW44F</a></td><td>ZHENGPING·ZP</td><td class="price-val">$15.99</td><td>--</td><td>4.5 <span style='color:#94a3b8'>(3)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=未知">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GTBVX1W9" target="_blank">B0GTBVX1W9</a></td><td>generic</td><td class="price-val">$11.79</td><td>--</td><td>--</td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=未知">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B09TZYGSC1" target="_blank">B09TZYGSC1</a></td><td>Amazon.com: GLLBTPT Salt and Pepper Grinder,Stainless Steel Refillable Salt &amp</td><td class="price-val">$8.49</td><td>--</td><td>4.2 <span style='color:#94a3b8'>(292)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=标准 | 竞品=未知">➕尺寸</span><span class="dim-match dim-match-diff" title="材质: 源商品=玻璃+不锈钢 | 竞品=不锈钢">❌材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>三级竞品 — C类不同规格 + 价格合理 + 月销>=30<span class="section-count">1 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B073W9SQ4Y" target="_blank">B073W9SQ4Y</a></td><td>BlueSnail</td><td class="price-val">$9.95</td><td>175</td><td>4.3 <span style='color:#94a3b8'>(1,891)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-diff" title="功能: 源商品=盐/胡椒研磨器 | 竞品=小型研磨器">❌功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=小(fba 3.38)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot-warn"></span>排除竞品<span class="section-count">5 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>维度</th><th>排除原因</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0879K9H3B" target="_blank">B0879K9H3B</a></td><td>Mincham</td><td class="price-val">$7.99</td><td><div class="dim-group"><span class="dim-match dim-match-diff" title="功能: 源商品=盐/胡椒研磨器 | 竞品=小型研磨器">❌功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=小(fba 3.5)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td><td>不同规格(C)-价格偏离($7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B07P9WS7LF" target="_blank">B07P9WS7LF</a></td><td>Amazon.com: Salt and Pepper Grinder Tall Size - Black Pepper,Herb Shak</td><td class="price-val">$6.98</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器(细高型)">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=小(fba 3.5)">❌尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=玻璃+不锈钢 | 竞品=玻璃+不锈钢">✅材质</span></div></td><td>不同规格(C)-价格偏离($6.98)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0G4PVYS2D" target="_blank">B0G4PVYS2D</a></td><td>indigywve</td><td class="price-val">$30.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=盐/胡椒研磨器 | 竞品=盐/胡椒研磨器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=1件 | 竞品=2件套(价格$30.99)">❌数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准 | 竞品=2只套装">❌尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=玻璃+不锈钢 | 竞品=玻璃+不锈钢">✅材质</span></div></td><td>不同规格(C)-价格偏离($30.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0CQSC2P8P" target="_blank">B0CQSC2P8P</a></td><td>M JINGMEI</td><td class="price-val">$6.69</td><td><div class="dim-group"><span class="dim-match dim-match-diff" title="功能: 源商品=盐/胡椒研磨器 | 竞品=小型研磨器">❌功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-diff" title="尺寸: 源商品=标准(fba 5.61) | 竞品=小(fba 3.5)">❌尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=玻璃+不锈钢 | 竞品=未知">➕材质</span></div></td><td>不同规格(C)-价格偏离($6.69)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GJZZ5K2J" target="_blank">B0GJZZ5K2J</a></td><td>Generic</td><td class="price-val">$40.46</td><td><div class="dim-group"><span class="dim-match dim-match-na" title="功能: 源商品=盐/胡椒研磨器 | 竞品=未知">➕功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=未知 | 竞品=未知">➕颜色</span><span class="dim-match dim-match-na" title="数量: 源商品=1件 | 竞品=未知">➕数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=未知 | 竞品=未知">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=未知 | 竞品=未知">➕材质</span></div></td><td>D类-Generic品牌，价格$40.46异常偏高，无销量/评分/类目数据，无法判断，排除</td></tr></tbody></table>  </div></div>
+
+
+
+</div><!-- end tab-overview -->
+
+<!-- 表格明细 Panel -->
+<div id="tab-detail" class="tab-panel">
+
+<div class="card">
+  <div class="card-title"><span class="dot"></span>全量竞品明细 <span class="section-count">26 条</span></div>
+<div class="detail-toolbar">  <button class="btn-copy" onclick="_copyDetailTable('detail-tbl', this)">📋 全选复制</button>  <span class="hint">点击名可全选表格，然后 Ctrl+C 复制到 Excel/表格软件</span></div>
+<div class="table-wrap"><table id="detail-tbl" class="detail-table"><thead><tr><th>ASIN</th><th>商品名</th><th>价格($)</th><th>月销</th><th>评分</th><th>评论数</th><th>规格(A/B/C/D)</th><th>分级结果</th><th>分级原因</th></tr></thead><tbody><tr><td>B0879KHYXC</td><td class='title-cell'>indigywve</td><td>$15.99</td><td>188</td><td>4.7</td><td>45</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销188</td></tr>
+<tr><td>B0F5X1YLG9</td><td class='title-cell'>Generic</td><td>$13.99</td><td>--</td><td>3.9</td><td>3</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销未知</td></tr>
+<tr><td>B0DSBS21HB</td><td class='title-cell'>M JINGMEI</td><td>$11.99</td><td>531</td><td>4.1</td><td>601</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销531</td></tr>
+<tr><td>B01N1PSWSB</td><td class='title-cell'>HOME EC</td><td>$17.99</td><td>17.3k</td><td>4.5</td><td>42,017</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销17261</td></tr>
+<tr><td>B0FLVS8FFC</td><td class='title-cell'>YRXEFY</td><td>$17.19</td><td>--</td><td>--</td><td>--</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销未知</td></tr>
+<tr><td>B07P5RNKR5</td><td class='title-cell'>Yugefom</td><td>$14.99</td><td>184</td><td>4.2</td><td>357</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销184</td></tr>
+<tr><td>B016LUR08W</td><td class='title-cell'>LEVAV</td><td>$11.99</td><td>78</td><td>4.2</td><td>6,524</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销78</td></tr>
+<tr><td>B07QGS17W4</td><td class='title-cell'>bonris</td><td>$16.99</td><td>155</td><td>4.3</td><td>1,366</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销155</td></tr>
+<tr><td>B0FX1NGRN2</td><td class='title-cell'>Generic</td><td>$14.99</td><td>88</td><td>4.2</td><td>12</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销88</td></tr>
+<tr><td>B0D2Q7V2VM</td><td class='title-cell'>LunarFiery</td><td>$11.99</td><td>61</td><td>4.5</td><td>335</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销61</td></tr>
+<tr><td>B0788QFWCF</td><td class='title-cell'>Mason Mills</td><td>$19.95</td><td>85</td><td>4.5</td><td>806</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销85</td></tr>
+<tr><td>B0DKN9XVND</td><td class='title-cell'>Gulex</td><td>$9.99</td><td>86</td><td>4.3</td><td>139</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销86</td></tr>
+<tr><td>B07SCYQ2Y2</td><td class='title-cell'>VEVOK CHEF</td><td>$15.99</td><td>84</td><td>4.2</td><td>4,330</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销84</td></tr>
+<tr><td>B086JL48W4</td><td class='title-cell'>LessMo</td><td>$12.99</td><td>1.8k</td><td>4.4</td><td>4,738</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销1800</td></tr>
+<tr><td>B0B1TQT2FD</td><td class='title-cell'>bonris</td><td>$17.99</td><td>--</td><td>4.4</td><td>1,116</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销未知</td></tr>
+<tr><td>B08MTZ339Q</td><td class='title-cell'>Kitchen-GO</td><td>$9.99</td><td>380</td><td>4.5</td><td>829</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销380</td></tr>
+<tr><td>B0B3HRZPBP</td><td class='title-cell'>PTGIORE</td><td>$16.99</td><td>--</td><td>--</td><td>--</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销未知</td></tr>
+<tr><td>B0DTJYW44F</td><td class='title-cell'>ZHENGPING·ZP</td><td>$15.99</td><td>--</td><td>4.5</td><td>3</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销未知</td></tr>
+<tr><td>B0GTBVX1W9</td><td class='title-cell'>generic</td><td>$11.79</td><td>--</td><td>--</td><td>--</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销未知</td></tr>
+<tr><td>B09TZYGSC1</td><td class='title-cell'>Amazon.com: GLLBTPT Salt and Pepper Grinder，Stainless Steel Refillable Salt &amp;amp; Peppercorn Shakers Adjustable Coarsene</td><td>$8.49</td><td>--</td><td>4.2</td><td>292</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($无)-月销未知</td></tr>
+<tr><td>B073W9SQ4Y</td><td class='title-cell'>BlueSnail</td><td>$9.95</td><td>175</td><td>4.3</td><td>1,891</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($无)-月销175</td></tr>
+<tr><td>B0879K9H3B</td><td class='title-cell'>Mincham</td><td>$7.99</td><td>1.7k</td><td>4</td><td>1,114</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($7.99)</td></tr>
+<tr><td>B07P9WS7LF</td><td class='title-cell'>Amazon.com: Salt and Pepper Grinder Tall Size - Black Pepper，Herb Shakers Mill Refillable Manual - Stainless Steel Lid -</td><td>$6.98</td><td>184</td><td>4.2</td><td>4,115</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($6.98)</td></tr>
+<tr><td>B0G4PVYS2D</td><td class='title-cell'>indigywve</td><td>$30.99</td><td>188</td><td>4.7</td><td>45</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($30.99)</td></tr>
+<tr><td>B0CQSC2P8P</td><td class='title-cell'>M JINGMEI</td><td>$6.69</td><td>531</td><td>4.1</td><td>601</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($6.69)</td></tr>
+<tr><td>B0GJZZ5K2J</td><td class='title-cell'>Generic</td><td>$40.46</td><td>--</td><td>--</td><td>--</td><td>D 不同品类</td><td>排除-品类不符</td><td>D类-Generic品牌，价格$40.46异常偏高，无销量/评分/类目数据，无法判断，排除</td></tr>
+</tbody></table></div>
+</div>
+
+</div><!-- end tab-detail -->
+
+</div><!-- end main -->
+
+<div class="footer">
+  AMZ-Ops Price Report &middot; 2026-04-26 17:49 &middot; Page 1 of 1
+</div>
+
+<script>
+// Tab 切换
+function _switchTab(btn, panelId){
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// 全选复制表格
+function _copyDetailTable(tableId, btnEl){
+  var tbl = document.getElementById(tableId);
+  if(!tbl) return;
+  // 创建隐藏 textarea
+  var ta = document.createElement('textarea');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  var csv = '';
+  var rows = tbl.querySelectorAll('tr');
+  for(var ri=0;ri<rows.length;ri++){
+    var cells = rows[ri].querySelectorAll('th,td');
+    var vals = [];
+    for(var ci=0;ci<cells.length;ci++){
+      vals.push(cells[ci].textContent.trim());
+    }
+    csv += vals.join('\t') + '\n';
+  }
+  ta.value = csv;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  // 按钮反馈
+  btnEl.textContent = '✅ 已复制';
+  btnEl.classList.add('copied');
+  setTimeout(function(){
+    btnEl.textContent = '\U0001f4cb \u5168\u9009\u590d\u5236';
+    btnEl.classList.remove('copied');
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
