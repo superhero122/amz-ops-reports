@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMZ-Ops 定价报告 - AMZUSA20250707xxxx0004</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;background:#f5f7fa;color:#334155;min-height:100vh}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:#1e293b}
+.logo-dot{width:8px;height:8px;background:#378ADD;border-radius:50%}
+.badge{background:#eef2ff;color:#4f46e5;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:500}
+.badge-time{font-size:11px;color:#94a3b8}
+.main{max-width:1200px;margin:0 auto;padding:28px 24px}
+
+/* ── Tab 导航 ── */
+.tab-nav{display:flex;gap:0;background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:4px;margin-bottom:20px;width:-webkit-fit-content}
+.tab-btn{padding:8px 24px;border:none;background:none;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;border-radius:8px;transition:all .15s}
+.tab-btn:hover{color:#334155;background:#f1f5f9}
+.tab-btn.active{background:#378ADD;color:#fff;box-shadow:0 1px 3px rgba(55,138,221,.25)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── 卡片 ── */
+.card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:22px 26px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card-title{font-size:15px;font-weight:600;color:#1e293b;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:6px;height:6px;background:#378ADD;border-radius:50%;flex-shrink:0}
+.card-title .dot-warn{width:6px;height:6px;background:#d97706;border-radius:50%;flex-shrink:0}
+
+/* ── 概览表格（带样式） ── */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+thead th{text-align:left;background:#f8fafc;padding:10px 14px;font-size:12px;color:#64748b;font-weight:600;border-bottom:2px solid #e2e8f0;white-space:nowrap;position:sticky;top:0;z-index:5}
+tbody td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#475569;vertical-align:middle;word-break:break-word}
+tbody tr:hover td{background:#fafbfc}
+.price-val{color:#185FA5;font-weight:600;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.tag-a{background:#ecfdf5;color:#059669}
+.tag-b{background:#fef3c7;color:#d97706}
+.tag-c{background:#fee2e2;color:#dc2626}
+.tag-d{background:#f1f5f9;color:#94a3b8}
+.tag-l1{background:#eff6ff;color:#1d4ed8}
+.tag-l2{background:#f0fdf4;color:#15803d}
+.tag-l3{background:#fffbeb;color:#a16207}
+.tag-exclude{background:#fafafa;color:#9ca3af}
+
+/* 维度匹配标记 */
+.dim-match{display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px;white-space:nowrap;line-height:1.6}
+.dim-match-ok{background:#ecfdf5;color:#059669}
+.dim-match-diff{background:#fee2e2;color:#dc2626}
+.dim-match-na{background:#f1f5f9;color:#94a3b8}
+.dim-group{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+
+.asin-link{color:#185FA5;text-decoration:none;font-weight:600}
+.asin-link:hover{text-decoration:underline;color:#0c4a9e}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:18px 16px;text-align:center}
+.stat-val{font-size:26px;font-weight:700;color:#185FA5;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:#64748b;margin-top:3px}
+.stat-val.warn{color:#d97706}
+.stat-val.danger{color:#dc2626}
+
+.conclusion{border-left:3px solid #378ADD;line-height:1.9;color:#475569;font-size:14px}
+.conclusion strong{color:#1e293b}
+.conclusion .price-highlight{color:#185FA5;font-size:16px}
+.footer{text-align:center;padding:24px;font-size:11px;color:#c0c8d4}
+.section-count{display:inline-flex;align-items:center;background:#f1f5f9;color:#64748b;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:500}
+.empty-hint{text-align:center;padding:30px;color:#94a3b8;font-size:13px}
+
+/* ── 明细表专用样式（纯文本、复制友好）── */
+.detail-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.detail-toolbar .hint{font-size:12px;color:#64748b}
+.btn-copy{padding:6px 16px;background:#378ADD;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-copy:hover{background:#2563eb}
+.btn-copy.copied{background:#059669}
+table.detail-table{font-size:12px}
+table.detail-table thead th{background:#e2e8f0;color:#374151;font-weight:600;font-size:11px;padding:9px 12px}
+table.detail-table tbody td{padding:8px 12px;font-size:12px;color:#374151;border-color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+table.detail-table tbody td.title-cell{max-width:300px;white-space:normal}
+table.detail-table tbody tr:hover td{background:#fafbfc}
+table.detail-table .text-ok{color:#059669}
+table.detail-table .text-warn{color:#d97706}
+table.detail-table .text-danger{color:#dc2626}
+table.detail-table .text-muted{color:#9ca3af}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .main{padding:16px 12px}
+  .card{padding:16px}
+  table.detail-table tbody td{white-space:normal;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-dot"></span> AMZ-Ops 定价报告</div>
+    <div>
+      <span class="badge">AMZUSA20250707xxxx0004</span>
+      <span class="badge-time">2026-04-26 17:44</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- Tab 导航 -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="_switchTab(this, 'tab-overview')">概览</button>
+  <button class="tab-btn" onclick="_switchTab(this, 'tab-detail')">📋 表格明细</button>
+</div>
+
+<!-- 概览 Panel -->
+<div id="tab-overview" class="tab-panel active">
+
+<div class="stats">
+<div class="stat-card"><div class="stat-val">$7.99</div><div class="stat-label">建议定价</div></div><div class="stat-card"><div class="stat-val">29</div><div class="stat-label">总竞品数</div></div><div class="stat-card"><div class="stat-val">10</div><div class="stat-label">有效竞品</div></div><div class="stat-card"><div class="stat-val">60%分位-A类（16条样本）</div><div class="stat-label">定价方法</div></div>
+</div>
+
+
+
+<div class="card">  <div class="card-title"><span class="dot"></span>一级竞品 — 同规格 + 价格合理 + 月销>=30<span class="section-count">6 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0D8R9QRWL" target="_blank">B0D8R9QRWL</a></td><td>Zulay Kitchen</td><td class="price-val">$8.99</td><td>12.4k</td><td>4.8 <span style='color:#94a3b8'>(3,904)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DG534XW1" target="_blank">B0DG534XW1</a></td><td>Amazon.com: Safring Can Opener Manual, Heavy Duty Handheld Strong Can Opener wit</td><td class="price-val">$8.97</td><td>1.5k</td><td>4.6 <span style='color:#94a3b8'>(1,322)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器+开瓶器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F44BGBDD" target="_blank">B0F44BGBDD</a></td><td>Amazon.com: Can Opener Manual with Magnet, Vayvnt Heavy Duty Stainless Steel Can</td><td class="price-val">$7.99</td><td>80</td><td>4 <span style='color:#94a3b8'>(171)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器（带磁铁）">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0CYDQHFC3" target="_blank">B0CYDQHFC3</a></td><td>Amazon.com: Zulay Kitchen Can Opener with Large Bottle Opener - Heavy Duty Stain</td><td class="price-val">$9.99</td><td>349</td><td>4.7 <span style='color:#94a3b8'>(665)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器+开瓶器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0CQ27BL2D" target="_blank">B0CQ27BL2D</a></td><td>Amazon.com: [Upgraded] PrinChef Can Opener Manual with Magnet, Reinforced Gear a</td><td class="price-val">$10.98</td><td>30</td><td>4.3 <span style='color:#94a3b8'>(2,525)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器（带磁铁）">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F449RXQR" target="_blank">B0F449RXQR</a></td><td>Vayvnt</td><td class="price-val">$7.99</td><td>80</td><td>4 <span style='color:#94a3b8'>(171)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=Stainless Steel | 竞品=na">➕材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>二级竞品 — A/B类同/近规格 + 价格合理<span class="section-count">3 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DMPLG46Y" target="_blank">B0DMPLG46Y</a></td><td>Generic</td><td class="price-val">$9.95</td><td>--</td><td>4.8 <span style='color:#94a3b8'>(12)</span></td><td><span class="tag tag-a">A 同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=Stainless Steel | 竞品=na">➕材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0D6CQKCLR" target="_blank">B0D6CQKCLR</a></td><td>GORILLA GRIP</td><td class="price-val">$9.99</td><td>25.4k</td><td>4.3 <span style='color:#94a3b8'>(34,811)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na(可能不同)">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B09NXMP557" target="_blank">B09NXMP557</a></td><td>Amazon.com: GORILLA GRIP Heavy Duty Stainless Steel Smooth Edge Manual Can Opene</td><td class="price-val">$11.96</td><td>25.4k</td><td>4.3 <span style='color:#94a3b8'>(34,811)</span></td><td><span class="tag tag-b">B 近似规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na | 竞品=Gray">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot"></span>三级竞品 — C类不同规格 + 价格合理 + 月销>=30<span class="section-count">1 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>月销</th><th>评分</th><th>规格级别</th><th>维度比对</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FBRCKDL2" target="_blank">B0FBRCKDL2</a></td><td>Amazon.com: 3PCS Can Opener Manual &amp;amp; Bottle Opener &amp;amp; Wine Opener</td><td class="price-val">$9.97</td><td>2.2k</td><td>4.4 <span style='color:#94a3b8'>(601)</span></td><td><span class="tag tag-c">C 不同规格</span></td><td><div class="dim-group"><span class="dim-match dim-match-diff" title="功能: 源商品=手动开罐器 | 竞品=3合1开罐器套装">❌功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-diff" title="数量: 源商品=1件 | 竞品=3件套装">❌数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td></tr></tbody></table>  </div></div><div class="card">  <div class="card-title"><span class="dot-warn"></span>排除竞品<span class="section-count">19 条</span></div>  <div class="table-wrap">  <table><thead><tr><th>ASIN</th><th>商品名</th><th>价格</th><th>维度</th><th>排除原因</th></tr></thead><tbody><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GRYW179H" target="_blank">B0GRYW179H</a></td><td>Generic</td><td class="price-val">$26.51</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=Stainless Steel | 竞品=na">➕材质</span></div></td><td>不同规格(C)-价格偏离($26.51)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DYND8KTH" target="_blank">B0DYND8KTH</a></td><td>Amazon.com: Manual Can Opener, UHIYEE Handheld Can Opener Heavy Duty w</td><td class="price-val">$15.69</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na(Gorilla Grip) | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=High Carbon Stainless Steel">✅材质</span></div></td><td>同规格(A)-价格偏离($15.69)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GQXWV8QK" target="_blank">B0GQXWV8QK</a></td><td>Amazon.com: Stainless Steel Smooth Edge Manual Can Opener And Bottle, </td><td class="price-val">$27.95</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器+开瓶器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-价格偏离($27.95)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B09NXHMRCY" target="_blank">B09NXHMRCY</a></td><td>Amazon.com: GORILLA GRIP Heavy Duty Stainless Steel Smooth Edge Manual</td><td class="price-val">$12.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-diff" title="颜色: 源商品=na(默认色) | 竞品=Aqua">❌颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>近似规格(B)-价格偏离($12.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DZXMV6Y7" target="_blank">B0DZXMV6Y7</a></td><td>Amazon.com: Multifunctional Can Opener Manual, Durable Heavy Duty Hand</td><td class="price-val">$6.48</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器+开瓶器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-低于B价($6.48&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B09NX8S3M1" target="_blank">B09NX8S3M1</a></td><td>GORILLA GRIP</td><td class="price-val">$18.90</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>近似规格(B)-价格偏离($18.90)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0BZBVNPPX" target="_blank">B0BZBVNPPX</a></td><td>Amazon.com: Beneno Heavy Duty Hand Can Opener Manual with Magnet, Dura</td><td class="price-val">$19.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器（带磁铁）">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Carbon Steel+Soft Grip">✅材质</span></div></td><td>同规格(A)-价格偏离($19.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0B156R761" target="_blank">B0B156R761</a></td><td>OUTWAY</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=Stainless Steel | 竞品=na">➕材质</span></div></td><td>同规格(A)-低于B价($6.99&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GC5BKH6N" target="_blank">B0GC5BKH6N</a></td><td>Amazon.com: Can Opener Manual for Seniors Heavy Duty, Commercial Cans </td><td class="price-val">$17.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器（商用重型）">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-价格偏离($17.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DS1DRM1K" target="_blank">B0DS1DRM1K</a></td><td>Generic</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=Stainless Steel | 竞品=na">➕材质</span></div></td><td>同规格(A)-低于B价($6.99&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0FXBDLNHK" target="_blank">B0FXBDLNHK</a></td><td>Amazon.com: Commercial Can Opener Heavy Duty, Hand Can Opener Manual, </td><td class="price-val">$12.98</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器（商用）">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-价格偏离($12.98)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0F92QRCK6" target="_blank">B0F92QRCK6</a></td><td>iheyfill</td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=Stainless Steel | 竞品=na">➕材质</span></div></td><td>同规格(A)-低于B价($6.99&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0GSLRN31K" target="_blank">B0GSLRN31K</a></td><td>Amazon.com: Multifunctional Can and Bottle Opener Ergonomic Soft Handl</td><td class="price-val">$26.71</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器+开瓶器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-价格偏离($26.71)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DZ1WBZJ3" target="_blank">B0DZ1WBZJ3</a></td><td>Amazon.com: Laoxiongtou Can Opener Manual Heavy Duty,Can Opener Stainl</td><td class="price-val">$6.48</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器（带磁铁）">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-低于B价($6.48&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0CT2JB3W4" target="_blank">B0CT2JB3W4</a></td><td>Amazon.com: Can Opener,Professional 3-In-1 Multifunctional Manual Can </td><td class="price-val">$6.99</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=3合1手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-低于B价($6.99&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0C9ZCWC8G" target="_blank">B0C9ZCWC8G</a></td><td>Amazon.com: Rainspire Upgraded Can Opener Manual with Bottle Opener Sm</td><td class="price-val">$7.98</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器+开瓶器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-低于B价($7.98&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DNCNV2YN" target="_blank">B0DNCNV2YN</a></td><td></td><td class="price-val">$6.23</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=na">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-na" title="材质: 源商品=Stainless Steel | 竞品=na">➕材质</span></div></td><td>同规格(A)-低于B价($6.23&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B0DNZ2FWJ7" target="_blank">B0DNZ2FWJ7</a></td><td>Amazon.com: Can Opener Manual, Handheld Strong Stainless Steel Can Ope</td><td class="price-val">$6.47</td><td><div class="dim-group"><span class="dim-match dim-match-ok" title="功能: 源商品=手动开罐器 | 竞品=手动开罐器+开瓶器">✅功能</span><span class="dim-match dim-match-na" title="颜色: 源商品=na | 竞品=Black">➕颜色</span><span class="dim-match dim-match-ok" title="数量: 源商品=1件 | 竞品=1件">✅数量</span><span class="dim-match dim-match-na" title="尺寸: 源商品=na | 竞品=na">➕尺寸</span><span class="dim-match dim-match-ok" title="材质: 源商品=Stainless Steel | 竞品=Stainless Steel">✅材质</span></div></td><td>同规格(A)-低于B价($6.47&lt;$7.99)</td></tr><tr><td><a class="asin-link" href="https://www.amazon.com/dp/B09NXMDPS1" target="_blank">B09NXMDPS1</a></td><td>GORILLA GRIP</td><td class="price-val">$7.99</td><td><span style="color:#c0c8d4;font-size:11px">--</span></td><td>无LLM分类结果</td></tr></tbody></table>  </div></div>
+
+<div class="card conclusion">  <div class="card-title">定价分析结论</div>  <p>基于 <strong>29</strong> 个竞品的分析，其中 A 类同规格竞品 <strong>22</strong> 个。一级竞品价格区间：<strong>$7.99 - $10.98</strong>，60%分位价格为 <strong>$7.99</strong>。</p>  <p style="margin-top:8px">    <span class="price-highlight">建议零售价：$7.99</span>     <span style="color:#94a3b8">(60%分位-A类（16条样本）)</span>     <span style="color:#94a3b8">| ✅ 可做</span>  </p></div>
+
+</div><!-- end tab-overview -->
+
+<!-- 表格明细 Panel -->
+<div id="tab-detail" class="tab-panel">
+
+<div class="card">
+  <div class="card-title"><span class="dot"></span>全量竞品明细 <span class="section-count">29 条</span></div>
+<div class="detail-toolbar">  <button class="btn-copy" onclick="_copyDetailTable('detail-tbl', this)">📋 全选复制</button>  <span class="hint">点击名可全选表格，然后 Ctrl+C 复制到 Excel/表格软件</span></div>
+<div class="table-wrap"><table id="detail-tbl" class="detail-table"><thead><tr><th>ASIN</th><th>商品名</th><th>价格($)</th><th>月销</th><th>评分</th><th>评论数</th><th>规格(A/B/C/D)</th><th>分级结果</th><th>分级原因</th></tr></thead><tbody><tr><td>B0D8R9QRWL</td><td class='title-cell'>Zulay Kitchen</td><td>$8.99</td><td>12.4k</td><td>4.8</td><td>3,904</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($7.99)-月销12365</td></tr>
+<tr><td>B0DG534XW1</td><td class='title-cell'>Amazon.com: Safring Can Opener Manual， Heavy Duty Handheld Strong Can Opener with Soft Touch Handle， Sharp Blade Smooth </td><td>$8.97</td><td>1.5k</td><td>4.6</td><td>1,322</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($7.99)-月销1462</td></tr>
+<tr><td>B0F44BGBDD</td><td class='title-cell'>Amazon.com: Can Opener Manual with Magnet， Vayvnt Heavy Duty Stainless Steel Can Opener Smooth Edge， Rubber Grip Handle </td><td>$7.99</td><td>80</td><td>4</td><td>171</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($7.99)-月销80</td></tr>
+<tr><td>B0CYDQHFC3</td><td class='title-cell'>Amazon.com: Zulay Kitchen Can Opener with Large Bottle Opener - Heavy Duty Stainless Steel Manual Can Opener with Turn K</td><td>$9.99</td><td>349</td><td>4.7</td><td>665</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($7.99)-月销349</td></tr>
+<tr><td>B0CQ27BL2D</td><td class='title-cell'>Amazon.com: [Upgraded] PrinChef Can Opener Manual with Magnet， Reinforced Gear and Blade， Smooth Edge Can Openers for Se</td><td>$10.98</td><td>30</td><td>4.3</td><td>2,525</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($7.99)-月销30</td></tr>
+<tr><td>B0F449RXQR</td><td class='title-cell'>Vayvnt</td><td>$7.99</td><td>80</td><td>4</td><td>171</td><td>A 同规格</td><td>一级竞品</td><td>A类-价格≥B($7.99)-月销80</td></tr>
+<tr><td>B0DMPLG46Y</td><td class='title-cell'>Generic</td><td>$9.95</td><td>--</td><td>4.8</td><td>12</td><td>A 同规格</td><td>二级竞品</td><td>A类-价格≥B($7.99)-月销未知</td></tr>
+<tr><td>B0D6CQKCLR</td><td class='title-cell'>GORILLA GRIP</td><td>$9.99</td><td>25.4k</td><td>4.3</td><td>34,811</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($7.99)-月销25392</td></tr>
+<tr><td>B09NXMP557</td><td class='title-cell'>Amazon.com: GORILLA GRIP Heavy Duty Stainless Steel Smooth Edge Manual Can Opener and Bottle Openers， Soft Comfortable H</td><td>$11.96</td><td>25.4k</td><td>4.3</td><td>34,811</td><td>B 近似规格</td><td>二级竞品</td><td>B类-价格≥B($7.99)-月销25392</td></tr>
+<tr><td>B0FBRCKDL2</td><td class='title-cell'>Amazon.com: 3PCS Can Opener Manual &amp;amp; Bottle Opener &amp;amp; Wine Opener， Smooth Edge Can Openers with Strong Magnet， He</td><td>$9.97</td><td>2.2k</td><td>4.4</td><td>601</td><td>C 不同规格</td><td>三级竞品</td><td>C类-价格≥B($7.99)-月销2170</td></tr>
+<tr><td>B0GRYW179H</td><td class='title-cell'>Generic</td><td>$26.51</td><td>--</td><td>--</td><td>--</td><td>C 不同规格</td><td>排除-价格异常</td><td>不同规格(C)-价格偏离($26.51)</td></tr>
+<tr><td>B0DYND8KTH</td><td class='title-cell'>Amazon.com: Manual Can Opener， UHIYEE Handheld Can Opener Heavy Duty with High Carbon Sharp Blade， Ease Can Open for Sen</td><td>$15.69</td><td>598</td><td>4.6</td><td>232</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($15.69)</td></tr>
+<tr><td>B0GQXWV8QK</td><td class='title-cell'>Amazon.com: Stainless Steel Smooth Edge Manual Can Opener And Bottle， Soft Handle， Hand-held Easy-turn Knob : Home &amp;amp;</td><td>$27.95</td><td>--</td><td>--</td><td>--</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($27.95)</td></tr>
+<tr><td>B09NXHMRCY</td><td class='title-cell'>Amazon.com: GORILLA GRIP Heavy Duty Stainless Steel Smooth Edge Manual Can Opener and Bottle Openers， Soft Comfortable H</td><td>$12.99</td><td>25.4k</td><td>4.3</td><td>34,811</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($12.99)</td></tr>
+<tr><td>B0DZXMV6Y7</td><td class='title-cell'>Amazon.com: Multifunctional Can Opener Manual， Durable Heavy Duty Handheld Strong Can Opener with Smooth Cutting Edge， F</td><td>$6.48</td><td>3.2k</td><td>4.2</td><td>565</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.48&lt;$7.99)</td></tr>
+<tr><td>B09NX8S3M1</td><td class='title-cell'>GORILLA GRIP</td><td>$18.90</td><td>25.4k</td><td>4.3</td><td>34,811</td><td>B 近似规格</td><td>排除-价格异常</td><td>近似规格(B)-价格偏离($18.90)</td></tr>
+<tr><td>B0BZBVNPPX</td><td class='title-cell'>Amazon.com: Beneno Heavy Duty Hand Can Opener Manual with Magnet， Durable Sharp Carbon Steel Blade Smooth Cutting， Big E</td><td>$19.99</td><td>8.2k</td><td>4.4</td><td>9,620</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($19.99)</td></tr>
+<tr><td>B0B156R761</td><td class='title-cell'>OUTWAY</td><td>$6.99</td><td>356</td><td>4.7</td><td>610</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.99&lt;$7.99)</td></tr>
+<tr><td>B0GC5BKH6N</td><td class='title-cell'>Amazon.com: Can Opener Manual for Seniors Heavy Duty， Commercial Cans &amp;amp; Bottles Opener for Big Cans， Easy and Safety</td><td>$17.99</td><td>324</td><td>4.9</td><td>32</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($17.99)</td></tr>
+<tr><td>B0DS1DRM1K</td><td class='title-cell'>Generic</td><td>$6.99</td><td>--</td><td>4.6</td><td>3</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.99&lt;$7.99)</td></tr>
+<tr><td>B0FXBDLNHK</td><td class='title-cell'>Amazon.com: Commercial Can Opener Heavy Duty， Hand Can Opener Manual， Stainless Steel for Restaurant and Home， Black Swi</td><td>$12.98</td><td>112</td><td>4.6</td><td>39</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($12.98)</td></tr>
+<tr><td>B0F92QRCK6</td><td class='title-cell'>iheyfill</td><td>$6.99</td><td>209</td><td>4.3</td><td>106</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.99&lt;$7.99)</td></tr>
+<tr><td>B0GSLRN31K</td><td class='title-cell'>Amazon.com: Multifunctional Can and Bottle Opener Ergonomic Soft Handles Razor Sharp Stainless Steel Cutting Wheel - Eas</td><td>$26.71</td><td>--</td><td>--</td><td>--</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-价格偏离($26.71)</td></tr>
+<tr><td>B0DZ1WBZJ3</td><td class='title-cell'>Amazon.com: Laoxiongtou Can Opener Manual Heavy Duty，Can Opener Stainless Steel With Magnet，Have Smooth Edges，Durable Sh</td><td>$6.48</td><td>--</td><td>4.6</td><td>4</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.48&lt;$7.99)</td></tr>
+<tr><td>B0CT2JB3W4</td><td class='title-cell'>Amazon.com: Can Opener，Professional 3-In-1 Multifunctional Manual Can Openers Bottle Opener，Kitchen Durable Stainless St</td><td>$6.99</td><td>141</td><td>4.6</td><td>757</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.99&lt;$7.99)</td></tr>
+<tr><td>B0C9ZCWC8G</td><td class='title-cell'>Amazon.com: Rainspire Upgraded Can Opener Manual with Bottle Opener Smooth Edge Cut， Can Opener Heavy Duty， Comfortable </td><td>$7.98</td><td>178</td><td>4.4</td><td>760</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($7.98&lt;$7.99)</td></tr>
+<tr><td>B0DNCNV2YN</td><td class='title-cell'></td><td>$6.23</td><td>--</td><td>--</td><td>--</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.23&lt;$7.99)</td></tr>
+<tr><td>B0DNZ2FWJ7</td><td class='title-cell'>Amazon.com: Can Opener Manual， Handheld Strong Stainless Steel Can Opener， Comfortable Handle， Sharp Blade Smooth Edge， </td><td>$6.47</td><td>--</td><td>--</td><td>--</td><td>A 同规格</td><td>排除-价格异常</td><td>同规格(A)-低于B价($6.47&lt;$7.99)</td></tr>
+<tr><td>B09NXMDPS1</td><td class='title-cell'>GORILLA GRIP</td><td>$7.99</td><td>25.4k</td><td>4.3</td><td>34,811</td><td>未知</td><td>排除-品类不符</td><td>无LLM分类结果</td></tr>
+</tbody></table></div>
+</div>
+
+</div><!-- end tab-detail -->
+
+</div><!-- end main -->
+
+<div class="footer">
+  AMZ-Ops Price Report &middot; 2026-04-26 17:44 &middot; Page 1 of 1
+</div>
+
+<script>
+// Tab 切换
+function _switchTab(btn, panelId){
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// 全选复制表格
+function _copyDetailTable(tableId, btnEl){
+  var tbl = document.getElementById(tableId);
+  if(!tbl) return;
+  // 创建隐藏 textarea
+  var ta = document.createElement('textarea');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  var csv = '';
+  var rows = tbl.querySelectorAll('tr');
+  for(var ri=0;ri<rows.length;ri++){
+    var cells = rows[ri].querySelectorAll('th,td');
+    var vals = [];
+    for(var ci=0;ci<cells.length;ci++){
+      vals.push(cells[ci].textContent.trim());
+    }
+    csv += vals.join('\t') + '\n';
+  }
+  ta.value = csv;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  // 按钮反馈
+  btnEl.textContent = '✅ 已复制';
+  btnEl.classList.add('copied');
+  setTimeout(function(){
+    btnEl.textContent = '\U0001f4cb \u5168\u9009\u590d\u5236';
+    btnEl.classList.remove('copied');
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
