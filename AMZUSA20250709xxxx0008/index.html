@@ -142,7 +142,7 @@ table.detail-table .text-muted{color:#9ca3af}
     <div class="logo"><span class="logo-dot"></span> AMZ-Ops 定价报告</div>
     <div>
       <span class="badge">AMZUSA20250709xxxx0008</span>
-      <span class="badge-time">2026-04-27 15:33</span>
+      <span class="badge-time">2026-04-27 15:45</span>
     </div>
   </div>
 </div>
@@ -215,7 +215,7 @@ table.detail-table .text-muted{color:#9ca3af}
 </div><!-- end main -->
 
 <div class="footer">
-  AMZ-Ops Price Report &middot; 2026-04-27 15:33 &middot; Page 1 of 1
+  AMZ-Ops Price Report &middot; 2026-04-27 15:45 &middot; Page 1 of 1
 </div>
 
 <script>
@@ -227,80 +227,43 @@ function _switchTab(btn, panelId){
   document.getElementById(panelId).classList.add('active');
 }
 
-// ── 可排序表格 ──
+// 可排序表格（事件委托）
 (function(){
-  // 自动初始化：找所有 table.sortable，给 th 添加点击事件
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('table.sortable').forEach(function(table) {
-      var headers = table.querySelectorAll('thead th[data-type]');
-      headers.forEach(function(th) {
-        // 离开 DOM 时清除其他表头状态
-        th.addEventListener('click', function() {
-          // 在同一个 table 内，清除其他 th 的排序状态
-          var siblings = table.querySelectorAll('thead th');
-          siblings.forEach(function(s) {
-            if (s !== th) s.classList.remove('sort-asc', 'sort-desc');
-          });
-          _sortTable.call(th);
-        });
-      });
-    });
-  });
-
-  window._sortTable = function(th) {
+  function doSort(th) {
     var table = th.closest('table');
     if (!table) return;
     var tbody = table.querySelector('tbody');
     if (!tbody) return;
-
     var dataType = th.getAttribute('data-type') || 'str';
     var colIndex = Array.from(th.parentNode.children).indexOf(th);
     var isAsc = !th.classList.contains('sort-desc');
-
-    // 切换排序方向
-    th.classList.remove('sort-asc', 'sort-desc');
-    th.classList.add(isAsc ? 'sort-asc' : 'sort-desc');
-
-    // 收集行
-    var rows = Array.from(tbody.querySelectorAll('tr'));
-
-    // 排序比较
-    rows.sort(function(a, b) {
-      var aCell = a.cells[colIndex];
-      var bCell = b.cells[colIndex];
-      if (!aCell || !bCell) return 0;
-
-      var aVal, bVal;
-      if (dataType === 'num') {
-        // 优先使用 data-sort-value
-        aVal = parseFloat(aCell.getAttribute('data-sort-value')) || 0;
-        bVal = parseFloat(bCell.getAttribute('data-sort-value')) || 0;
-      } else {
-        aVal = (aCell.textContent || '').trim();
-        bVal = (bCell.textContent || '').trim();
-      }
-
-      if (typeof aVal === 'string') {
-        return isAsc ? aVal.localeCompare(bVal, 'zh', {numeric:true}) : bVal.localeCompare(aVal, 'zh', {numeric:true});
-      }
-      return isAsc ? aVal - bVal : bVal - aVal;
+    table.querySelectorAll('thead th').forEach(function(s) {
+      s.classList.remove('sort-asc', 'sort-desc');
     });
-
-    // 重新插入
-    rows.forEach(function(row) { tbody.appendChild(row); });
-  };
+    th.classList.add(isAsc ? 'sort-asc' : 'sort-desc');
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort(function(a, b) {
+      var ac = a.cells[colIndex], bc = b.cells[colIndex];
+      if (!ac || !bc) return 0;
+      var av, bv;
+      if (dataType === 'num') {
+        av = parseFloat(ac.getAttribute('data-sort-value')) || 0;
+        bv = parseFloat(bc.getAttribute('data-sort-value')) || 0;
+      } else {
+        av = (ac.textContent || '').trim();
+        bv = (bc.textContent || '').trim();
+      }
+      if (typeof av === 'string')
+        return isAsc ? av.localeCompare(bv, 'zh', {numeric:true}) : bv.localeCompare(av, 'zh', {numeric:true});
+      return isAsc ? av - bv : bv - av;
+    });
+    rows.forEach(function(r) { tbody.appendChild(r); });
+  }
+  document.addEventListener('click', function(e) {
+    var th = e.target.closest('table.sortable thead th[data-type]');
+    if (th) doSort(th);
+  });
 })();
-
-// ── 全选复制表格 ──
-function _copyDetailTable(tableId, btnEl){
-  var tbl = document.getElementById(tableId);
-  if(!tbl) return;
-  var ta = document.createElement('textarea');
-  ta.style.position = 'fixed';
-  ta.style.opacity = '0';
-  var csv = '';
-  var rows = tbl.querySelectorAll('tr');
-  for(var ri=0;ri<rows.length;ri++){
     var cells = rows[ri].querySelectorAll('th,td');
     var vals = [];
     for(var ci=0;ci<cells.length;ci++){
